@@ -1,1 +1,3 @@
-export * from "./hi";
+import "./styles/core.scss";
+
+export * from "./scripts/Dialog";

@@ -1,10 +1,10 @@
 {
-  "name": "typescript-lib-starter",
+  "name": "@bndynet/dialog",
   "version": "1.0.0",
-  "description": "<description>",
-  "main": "dist/<name>.umd.js",
-  "module": "dist/<name>.es5.js",
-  "typings": "dist/types/<name>.d.ts",
+  "description": "An interactive dialog for browser includes alert, confirm and notifications",
+  "main": "dist/dialog.umd.js",
+  "module": "dist/dialog.es5.js",
+  "typings": "dist/types/dialog.d.ts",
   "files": [
     "dist"
   ],
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bndynet/typescript-lib-starter.git"
+    "url": "https://github.com/bndynet/dialog.git"
   },
   "publishConfig": {
     "access": "public"
@@ -43,6 +43,7 @@
     "@semantic-release/git": "^7.0.8",
     "@types/jest": "^23.3.12",
     "@types/node": "^10.11.0",
+    "autoprefixer": "^9.4.6",
     "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
@@ -54,6 +55,8 @@
     "jsdom": "13.1.0",
     "jsdom-global": "^3.0.2",
     "lint-staged": "^8.1.0",
+    "node-sass": "^4.11.0",
+    "postcss": "^7.0.14",
     "prettier": "^1.15.3",
     "rimraf": "^2.6.2",
     "rollup": "^0.67.0",
@@ -61,7 +64,9 @@
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sass": "^1.1.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^4.0.2",
     "rollup-plugin-typescript2": "^0.18.0",
     "semantic-release": "^15.9.16",
     "ts-jest": "^22.0.4",

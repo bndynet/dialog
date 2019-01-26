@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <script src="../dist/dialog.umd.js"></script>
+        <link href="../dist/dialog.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <script>
+            dialog.alert("This is a welcome message without title.", function(e) {
+                alert("Clicked yes");
+            });
+            dialog.alert("Welcome", "This is a welcome message with title.", function(e) {
+                alert("Clicked yes");
+            });
+            dialog.alert("Welcome", "This is a welcome message with title and tips.", function(e) {
+                alert("Clicked yes");
+            }, "<i>Tips</i>: Click yes to close dialog");
+        </script>
+    </body>
+</html>

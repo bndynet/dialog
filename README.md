@@ -20,5 +20,4 @@ This starter project implements following features:
 
     `npm i && npm run init` and type your package informations
 
-
 Note: If you want to use Travis CI to publish and release automatically. You must set tokens(**GH_TOKEN** and **NPM_TOKEN**) in Travis CI repo.
