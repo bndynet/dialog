@@ -1,12 +1,22 @@
 import { resolve } from 'url';
 
 class Dialog {
+    public static DefaultConfig: DailogConfig = {
+        labelOK: "OK",
+        labelCancel: "Cancel",
+    };
+
     private static containerRef: HTMLElement | undefined;
+
+    public config: DailogConfig | undefined;
     private ref: HTMLElement | undefined;
 
-    constructor(config?: DailogConfigs) {
-        // TODO:
-
+    constructor(config?: DailogConfig) {
+        if (config) {
+            Object.assign(this.config, Dialog.DefaultConfig,  config);
+        } else {
+            this.config = Dialog.DefaultConfig;
+        }
     }
 
     public render = (options: DailogOptions) => {
@@ -37,8 +47,13 @@ class Dialog {
         const eleRoot = document.createElement("div");
         eleRoot.setAttribute("class", "dialog " + options.css || "");
 
+        if (options.width) {
+            eleRoot.style.width = options.width.toString();
+        }
+
+        let eleHeader: HTMLElement | null = null;
         if (options.title) {
-            const eleHeader = document.createElement("div");
+            eleHeader = document.createElement("div");
             eleHeader.setAttribute("class", "dialog-header");
             eleRoot.appendChild(eleHeader);
 
@@ -73,7 +88,24 @@ class Dialog {
         eleBody.innerHTML = options.content;
         eleRoot.appendChild(eleBody);
 
-        eleRoot.appendChild(this.renderFooter(options));
+        const eleFooter = this.renderFooter(options);
+        eleRoot.appendChild(eleFooter);
+
+        let height: number | string | null = null;
+        if (options.height && typeof options.height === "number") {
+            height = options.height;
+            if (eleHeader) {
+                height = height - eleHeader.clientHeight;
+            }
+            if (eleFooter) {
+                height = height - eleFooter.clientHeight;
+            }
+        } else if (typeof options.height === "string") {
+            height = `calc(100vh - ${eleHeader ? eleHeader.clientHeight : 0}px - ${eleFooter ? eleFooter.clientHeight : 0}px)`;
+        }
+        if (height) {
+            eleBody.style.height = height.toString();
+        }
 
         return eleRoot;
     }
@@ -84,8 +116,8 @@ class Dialog {
         if (options.tip) {
             ele.appendChild(this.renderTip(options.tip));
         }
-        if (options.actions) {
-            ele.appendChild(this.renderButtons(options.actions));
+        if (options.buttons) {
+            ele.appendChild(this.renderButtons(options.buttons));
         }
         return ele;
     }
@@ -97,23 +129,23 @@ class Dialog {
         return ele;
     }
 
-    private renderButtons = (actions: DialogAction[]): HTMLElement => {
+    private renderButtons = (buttons: DialogButton[]): HTMLElement => {
         const eleContainer = document.createElement("div");
         eleContainer.setAttribute("class", "actions-container");
-        if (actions && actions.length > 0) {
-            actions.forEach(action => {
+        if (buttons&& buttons.length > 0) {
+            buttons.forEach(button => {
                 const btn = document.createElement("button");
-                btn.innerHTML = action.label;
+                btn.innerHTML = button.label;
                 btn.addEventListener("click", event => {
-                    if (action.onDo && typeof action.onDo === "function") {
-                        action.onDo(event);
+                    if (button.onClick && typeof button.onClick=== "function") {
+                        button.onClick(this);
                     }
                 });
-                if (action.css) {
-                    btn.setAttribute("class", action.css);
+                if (button.css) {
+                    btn.setAttribute("class", button.css);
                 }
-                if (action.style) {
-                    btn.setAttribute("style", action.style);
+                if (button.style) {
+                    btn.setAttribute("style", button.style);
                 }
                 eleContainer.appendChild(btn);
             });
@@ -122,8 +154,10 @@ class Dialog {
     }
 }
 
-export interface DailogConfigs {
-    injectNotifyVariants: string[];
+export interface DailogConfig {
+    injectNotifyVariants?: string[];
+    labelOK?:string;
+    labelCancel?: string;
 }
 
 export interface DailogOptions {
@@ -131,16 +165,18 @@ export interface DailogOptions {
     title?: string;
     tip?: string;
     css?: string;
-    actions: DialogAction[];
+    width?: number | string;
+    height?: number | string;
+    buttons?: DialogButton[];
     onClosing?: (event: any) => boolean;
     onClosed?: (event: any) => void;
 }
 
-export interface DialogAction {
+export interface DialogButton {
     label: string;
     style?: string;
     css?: string;
-    onDo?: (event?: any) => void;
+    onClick?: (dialog: Dialog) => void;
 }
 
 
@@ -157,18 +193,19 @@ export function alert(title: string, message: string, callback: () => void): Dia
 
 export function alert(arg1: any, arg2?: any, arg3?: any, arg4?: any): Dialog {
     const dialog = new Dialog();
+    const dialogConfig = dialog.config;
     let options: DailogOptions | null = null;
-    if (typeof arg1 === "object") {
+    if (typeof arg1 === "object" && dialog && dialogConfig) {
         options = {
             title: arg1.title,
             content: arg1.content,
             tip: arg1.tip,
-            actions: [
+            buttons: [
                 {
-                    label: "OK",
-                    onDo: () => {
+                    label: dialogConfig.labelOK as string,
+                    onClick: () => {
                         if (typeof arg1.onOk === "function") {
-                            arg1.onOk();
+                            arg1.onOk(dialog);
                         }
                         dialog.close();
                     },

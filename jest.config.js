@@ -7,7 +7,7 @@ module.exports = {
     testRegex: "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     setupTestFrameworkScriptFile: "./test/_setup.ts",
     moduleFileExtensions: ["ts", "tsx", "js"],
-    coveragePathIgnorePatterns: ["/node_modules/", "/test/"],
+    coveragePathIgnorePatterns: ["/node_modules/", "/test/", "src/index.ts"],
     coverageThreshold: {
         global: {
             branches: 0,

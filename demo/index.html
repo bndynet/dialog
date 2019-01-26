@@ -14,6 +14,9 @@
             dialog.alert("Welcome", "This is a welcome message with title and tips.", function(e) {
                 alert("Clicked yes");
             }, "<i>Tips</i>: Click yes to close dialog");
+            dialog.alert({content: "This is a welcome message without title.", onOk: function(e) {
+                alert("Clicked yes");
+            }});
         </script>
     </body>
 </html>
