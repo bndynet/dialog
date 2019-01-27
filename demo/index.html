@@ -3,21 +3,29 @@
         <script src="../dist/dialog.umd.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link href="../dist/dialog.css" rel="stylesheet" type="text/css" />
+        <style>
+            body {
+                padding: 15px;
+            }
+        </style>
     </head>
     <body>
-        <script>
-            dialog.alert("This is a welcome message without title.", function(e) {
-                alert("Clicked yes");
-            });
-            dialog.alert("Welcome", "This is a welcome message with title.", function(e) {
-                alert("Clicked yes");
-            });
-            dialog.alert("Welcome", "This is a welcome message with title and tips.", function(e) {
-                alert("Clicked yes");
-            }, "<i>Tips</i>: Click yes to close dialog");
-            dialog.alert({content: "This is a welcome message without title.", onOk: function(e) {
-                alert("Clicked yes");
-            }});
-        </script>
+        <button class="btn btn-light"
+            onclick='dialog.alert("Alert Message", function(e) { alert("Clicked ok"); });'>
+            Alert
+        </button>
+        <button class="btn btn-light"
+            onclick='dialog.alert("Title", "Alert Message", function(e) { alert("Clicked ok"); });'>
+            Alert with Title
+        </button>
+        <hr />
+        <button class="btn btn-light"
+            onclick='dialog.confirm("Confirm Message", function(e) { alert("Clicked ok"); });'>
+            Confirm
+        </button>
+        <button class="btn btn-light"
+            onclick='dialog.confirm("Title", "Confirm Message", function(e) { alert("Clicked ok"); });'>
+            Confirm with Title
+        </button>
     </body>
 </html>

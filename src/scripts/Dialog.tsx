@@ -1,47 +1,50 @@
-import { resolve } from 'url';
-
 class Dialog {
-    public static DefaultConfig: DailogConfig = {
+    public static DefaultOptions: DailogOptions = {
         labelOK: "OK",
         labelCancel: "Cancel",
     };
 
-    private static containerRef: HTMLElement | undefined;
+    private static containerRef: HTMLElement | null = null;
 
-    public config: DailogConfig | undefined;
+    public finalOptions: DailogOptions | undefined;
     private ref: HTMLElement | undefined;
 
-    constructor(config?: DailogConfig) {
-        if (config) {
-            Object.assign(this.config, Dialog.DefaultConfig,  config);
+    constructor(options?: DailogOptions) {
+        if (options) {
+            Object.assign(this.finalOptions, Dialog.DefaultOptions, options);
         } else {
-            this.config = Dialog.DefaultConfig;
+            this.finalOptions = Dialog.DefaultOptions;
         }
     }
 
     public render = (options: DailogOptions) => {
+        if (options) {
+            Object.assign(this.finalOptions, options);
+        }
         this.ref = this.renderElement(options);
         if (!Dialog.containerRef) {
             Dialog.containerRef = this.renderOverlay();
+            document.body.appendChild(Dialog.containerRef);
         }
         Dialog.containerRef.appendChild(this.ref);
-    }
+    };
 
     public close = (event?: any) => {
         if (Dialog.containerRef && Dialog.containerRef.querySelectorAll(".dialog").length <= 1) {
             Dialog.containerRef.remove();
+            Dialog.containerRef = null;
         } else {
             if (this.ref) {
                 this.ref.remove();
             }
         }
-    }
+    };
 
     private renderOverlay = (): HTMLElement => {
         const ele = document.createElement("div");
         ele.setAttribute("class", "dialog-overlay");
         return document.body.appendChild(ele);
-    }
+    };
 
     private renderElement = (options: DailogOptions): HTMLElement => {
         const eleRoot = document.createElement("div");
@@ -85,7 +88,7 @@ class Dialog {
 
         const eleBody = document.createElement("div");
         eleBody.setAttribute("class", "dialog-body");
-        eleBody.innerHTML = options.content;
+        eleBody.innerHTML = options.content || "";
         eleRoot.appendChild(eleBody);
 
         const eleFooter = this.renderFooter(options);
@@ -108,7 +111,7 @@ class Dialog {
         }
 
         return eleRoot;
-    }
+    };
 
     private renderFooter = (options: DailogOptions): HTMLElement => {
         const ele = document.createElement("div");
@@ -120,24 +123,24 @@ class Dialog {
             ele.appendChild(this.renderButtons(options.buttons));
         }
         return ele;
-    }
+    };
 
     private renderTip = (tip: string): HTMLElement => {
         const ele = document.createElement("div");
         ele.setAttribute("class", "tip");
         ele.innerHTML = tip;
         return ele;
-    }
+    };
 
     private renderButtons = (buttons: DialogButton[]): HTMLElement => {
         const eleContainer = document.createElement("div");
         eleContainer.setAttribute("class", "actions-container");
-        if (buttons&& buttons.length > 0) {
+        if (buttons && buttons.length > 0) {
             buttons.forEach(button => {
                 const btn = document.createElement("button");
                 btn.innerHTML = button.label;
                 btn.addEventListener("click", event => {
-                    if (button.onClick && typeof button.onClick=== "function") {
+                    if (button.onClick && typeof button.onClick === "function") {
                         button.onClick(this);
                     }
                 });
@@ -153,17 +156,11 @@ class Dialog {
             });
         }
         return eleContainer;
-    }
-}
-
-export interface DailogConfig {
-    injectNotifyVariants?: string[];
-    labelOK?:string;
-    labelCancel?: string;
+    };
 }
 
 export interface DailogOptions {
-    content: string;
+    content?: string;
     title?: string;
     tip?: string;
     css?: string;
@@ -172,6 +169,8 @@ export interface DailogOptions {
     buttons?: DialogButton[];
     onClosing?: (event: any) => boolean;
     onClosed?: (event: any) => void;
+    labelOK?: string;
+    labelCancel?: string;
 }
 
 export interface DialogButton {
@@ -181,54 +180,86 @@ export interface DialogButton {
     onClick?: (dialog: Dialog) => void;
 }
 
-
-export interface AlertOptions {
-    title?: string;
-    tip?: string;
-    content: string;
-    onOk?: () => void;
-}
-
-export function alert(options: AlertOptions): Dialog;
-export function alert(message: string, callback: () => void): Dialog;
+export function alert(message: string, callback?: () => void): Dialog;
 export function alert(title: string, message: string, callback: () => void): Dialog;
 
-export function alert(arg1: any, arg2?: any, arg3?: any, arg4?: any): Dialog {
+export function alert(): Dialog {
+    const args = arguments;
     const dialog = new Dialog();
-    const dialogConfig = dialog.config;
-    let options: DailogOptions | null = null;
-    if (typeof arg1 === "object" && dialog && dialogConfig) {
-        options = {
-            title: arg1.title,
-            content: arg1.content,
-            tip: arg1.tip,
-            buttons: [
-                {
-                    label: dialogConfig.labelOK as string,
-                    css: "btn btn-primary",
-                    onClick: () => {
-                        if (typeof arg1.onOk === "function") {
-                            arg1.onOk(dialog);
-                        }
-                        dialog.close();
-                    },
-                }
-            ]
-        };
-    } else {
-       if (typeof arg2 === "function") {
-           return alert({
-               content: arg1,
-               onOk: arg2,
-           });
-       } else {
-           return alert({
-               title: arg1,
-               content: arg2,
-               onOk: arg3,
-               tip: arg4,
-           });
-       }
+    const dailogOptions = dialog.finalOptions || {};
+    const options: DailogOptions = {};
+    options.buttons = [
+        {
+            label: dailogOptions.labelOK as string,
+            css: "btn btn-primary",
+            onClick: () => {
+                dialog.close();
+            },
+        },
+    ];
+    switch (args.length) {
+        case 2:
+            options.content = arguments[0];
+            options.buttons[0].onClick = () => {
+                args[1]();
+                dialog.close();
+            };
+            break;
+
+        case 3:
+            options.title = arguments[0];
+            options.content = arguments[1];
+            options.buttons[0].onClick = () => {
+                args[2]();
+                dialog.close();
+            };
+            break;
+    }
+    if (options) {
+        dialog.render(options);
+    }
+    return dialog;
+}
+
+export function confirm(options: DailogOptions): Dialog;
+export function confirm(message: string, callback: () => void): Dialog;
+export function confirm(title: string, message: string, callback: () => void): Dialog;
+
+export function confirm(): Dialog {
+    const args = arguments;
+    const dialog = new Dialog();
+    const dialogOptions = dialog.finalOptions || {};
+    const options: DailogOptions = {};
+    options.buttons = [
+        {
+            label: dialogOptions.labelCancel as string,
+            css: "btn btn-default btn-light",
+            onClick: () => {
+                dialog.close();
+            },
+        },
+        {
+            label: dialogOptions.labelOK as string,
+            css: "btn btn-primary",
+        },
+    ];
+    switch (args.length) {
+        case 2:
+            options.content = arguments[0];
+            options.buttons[1].onClick = () => {
+                args[1]();
+                dialog.close();
+            };
+            break;
+
+        case 3:
+            options.title = arguments[0];
+            options.content = arguments[1];
+            options.buttons[1].onClick = () => {
+                args[2]();
+                dialog.close();
+            };
+            break;
     }
     if (options) {
         dialog.render(options);
