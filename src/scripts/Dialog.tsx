@@ -143,6 +143,8 @@ class Dialog {
                 });
                 if (button.css) {
                     btn.setAttribute("class", button.css);
+                } else {
+                    btn.setAttribute("class", "btn btn-default btn-light");
                 }
                 if (button.style) {
                     btn.setAttribute("style", button.style);
@@ -203,6 +205,7 @@ export function alert(arg1: any, arg2?: any, arg3?: any, arg4?: any): Dialog {
             buttons: [
                 {
                     label: dialogConfig.labelOK as string,
+                    css: "btn btn-primary",
                     onClick: () => {
                         if (typeof arg1.onOk === "function") {
                             arg1.onOk(dialog);
