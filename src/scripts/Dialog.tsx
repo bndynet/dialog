@@ -1,19 +1,24 @@
 class Dialog {
-    public static DefaultOptions: DailogOptions = {
+    public static defaultOptions: DailogOptions = {
         labelOK: "OK",
         labelCancel: "Cancel",
     };
+    public static setOptions = (options: DailogOptions) => {
+        Object.assign(Dialog.globalOptions, Dialog.defaultOptions, options);
+    }
 
     private static containerRef: HTMLElement | null = null;
+    private static globalOptions: DailogOptions = Dialog.defaultOptions;
+
 
     public finalOptions: DailogOptions | undefined;
     private ref: HTMLElement | undefined;
 
     constructor(options?: DailogOptions) {
         if (options) {
-            Object.assign(this.finalOptions, Dialog.DefaultOptions, options);
+            Object.assign(this.finalOptions, Dialog.globalOptions, options);
         } else {
-            this.finalOptions = Dialog.DefaultOptions;
+            this.finalOptions = Dialog.globalOptions;
         }
     }
 
@@ -48,7 +53,7 @@ class Dialog {
 
     private renderElement = (options: DailogOptions): HTMLElement => {
         const eleRoot = document.createElement("div");
-        eleRoot.setAttribute("class", "dialog " + options.css || "");
+        eleRoot.setAttribute("class", `dialog ${options.css || ""} ${options.theme || ""}`.trim());
 
         if (options.width) {
             eleRoot.style.width = options.width.toString();
@@ -160,6 +165,7 @@ class Dialog {
 }
 
 export interface DailogOptions {
+    theme?: string;
     content?: string;
     title?: string;
     tip?: string;
