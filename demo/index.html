@@ -1,7 +1,7 @@
 <html>
     <head>
         <script src="../dist/dialog.umd.js"></script>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
         <link href="../dist/dialog.css" rel="stylesheet" type="text/css" />
         <style>
             body {
@@ -26,6 +26,12 @@
         <button class="btn btn-light"
             onclick='dialog.confirm("Title", "Confirm Message", function(e) { alert("Clicked ok"); });'>
             Confirm with Title
+        </button>
+
+        <hr />
+        <button class="btn btn-light"
+            onclick='dialog.notify("Message" + Date.now(), "warning")'>
+            Notify
         </button>
     </body>
 </html>

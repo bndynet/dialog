@@ -81,3 +81,89 @@
         }
     }
 }
+
+.notifier-container {
+    position: fixed;
+
+    &.center {
+        left: 50%;
+        text-align: center;
+        transform: translateX(-50%);
+
+        &.top {
+            top: 0;
+
+            .notifier-item:first-child {
+                border-radius: 0 0 4px 4px;
+            }
+        }
+
+        &.bottom {
+            bottom: 0;
+            .notifier-item {
+                border-radius: 4px 4px 0 0;
+            }
+        }
+    }
+    &.top {
+        top: 15px;
+
+        .notifier-item {
+            margin-bottom: 15px;
+        }
+    }
+    &.bottom {
+        bottom: 15px;
+
+        .notifier-item {
+            margin-top: 15px;
+        }
+    }
+    &.left {
+        left: 15px;
+        .notifier-item {
+            transform: translateX(-100%);
+            &.notifier-item-show {
+                transform: translateX(0);
+            }
+            &.notifier-item-hidden {
+                transform: translateX(-100%);
+                margin-left: -15px;
+            }
+        }
+    }
+    &.right {
+        right: 15px;
+        .notifier-item {
+            transform: translateX(100%);
+            &.notifier-item-show {
+                transform: translateX(0);
+            }
+            &.notifier-item-hidden {
+                transform: translateX(100%);
+                margin-right: -15px;
+            }
+        }
+    }
+
+    .notifier-item {
+        position: relative;
+        padding: 15px;
+        color: #ffffff;
+        border-radius: 4px;
+        transition: all 500ms cubic-bezier(0.175, 0.885, 0.320, 1.275);
+
+        &.default {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        &.error {
+            background-color: rgba(254, 26, 0, 0.9);
+        }
+        &.success {
+            background-color: rgba(76, 175, 80, 0.9);
+        }
+        &.warning {
+            background-color: rgba(254, 189, 0, 0.9);
+        }
+    }
+}
