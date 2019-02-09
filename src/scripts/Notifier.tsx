@@ -98,7 +98,7 @@ export function setNotifier(options: NotifierOptions) {
 export function notify(message: string, theme?: string) {
     const notifier = new Notifier({
         theme: theme || "default",
-        autoClose: false,
+        autoClose: true,
     });
     notifier.show(message);
 }
