@@ -1,7 +1,7 @@
 <html>
     <head>
         <script src="../dist/dialog.umd.js"></script>
-        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link href="../dist/dialog.css" rel="stylesheet" type="text/css" />
         <style>
             body {
@@ -28,9 +28,14 @@
             Confirm with Title
         </button>
 
+        <script type="text/javascript">
+            dialog.setNotifier({
+                square: false,
+            });
+        </script>
         <hr />
         <button class="btn btn-light"
-            onclick='dialog.notify("Message" + Date.now(), "warning")'>
+            onclick='dialog.notify("Message" + Date.now())'>
             Notify
         </button>
     </body>

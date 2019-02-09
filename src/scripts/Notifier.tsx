@@ -5,6 +5,7 @@ export interface NotifierOptions {
     theme?: string;
     placement?: string;
     maxItems?: number;
+    square?: boolean;
 }
 
 
@@ -62,7 +63,7 @@ class Notifier {
     private renderItem = (message: string) => {
         if (!Notifier.refContainer) {
             Notifier.refContainer = document.createElement("div");
-            Notifier.refContainer.setAttribute("class", `notifier-container ${this.options.placement}`);
+            Notifier.refContainer.setAttribute("class", `notifier-container ${this.options.placement} ${this.options.square ? "square" : ""}`);
             document.body.appendChild(Notifier.refContainer);
         }
 
@@ -96,7 +97,7 @@ export function setNotifier(options: NotifierOptions) {
 
 export function notify(message: string, theme?: string) {
     const notifier = new Notifier({
-        theme,
+        theme: theme || "default",
         autoClose: false,
     });
     notifier.show(message);
