@@ -1,4 +1,4 @@
-class Dialog {
+export class Dialog {
     public static defaultOptions: DailogOptions = {
         labelOK: "OK",
         labelCancel: "Cancel",
@@ -11,22 +11,16 @@ class Dialog {
     private static globalOptions: DailogOptions = Dialog.defaultOptions;
 
 
-    public finalOptions: DailogOptions | undefined;
+    public finalOptions: DailogOptions = {};
     private ref: HTMLElement | undefined;
 
     constructor(options?: DailogOptions) {
-        if (options) {
-            Object.assign(this.finalOptions, Dialog.globalOptions, options);
-        } else {
-            this.finalOptions = Dialog.globalOptions;
-        }
+        this.finalOptions = {...Dialog.globalOptions, ...options};
     }
 
-    public render = (options: DailogOptions) => {
-        if (options) {
-            Object.assign(this.finalOptions, options);
-        }
-        this.ref = this.renderElement(options);
+    public render = (options?: DailogOptions) => {
+        this.finalOptions = {...this.finalOptions, ...options};
+        this.ref = this.renderElement();
         if (!Dialog.containerRef) {
             Dialog.containerRef = this.renderOverlay();
             document.body.appendChild(Dialog.containerRef);
@@ -35,6 +29,22 @@ class Dialog {
     };
 
     public close = (event?: any) => {
+        if (typeof this.finalOptions.onClosing === "function") {
+            if (this.finalOptions.onClosing(event)) {
+                this.removeElement();
+                if (typeof this.finalOptions.onClosed === "function") {
+                    this.finalOptions.onClosed(event);
+                }
+            }
+        } else {
+            this.removeElement();
+            if (typeof this.finalOptions.onClosed === "function") {
+                this.finalOptions.onClosed(event);
+            }
+        }
+    };
+
+    private removeElement = () => {
         if (Dialog.containerRef && Dialog.containerRef.querySelectorAll(".dialog").length <= 1) {
             Dialog.containerRef.remove();
             Dialog.containerRef = null;
@@ -43,7 +53,7 @@ class Dialog {
                 this.ref.remove();
             }
         }
-    };
+    }
 
     private renderOverlay = (): HTMLElement => {
         const ele = document.createElement("div");
@@ -51,7 +61,8 @@ class Dialog {
         return document.body.appendChild(ele);
     };
 
-    private renderElement = (options: DailogOptions): HTMLElement => {
+    private renderElement = (): HTMLElement => {
+        const options = this.finalOptions;
         const eleRoot = document.createElement("div");
         eleRoot.setAttribute("class", `dialog ${options.css || ""} ${options.theme || ""}`.trim());
 
@@ -75,17 +86,7 @@ class Dialog {
             eleHeaderToolboxClose.setAttribute("aria-label", "Close");
             eleHeaderToolboxClose.innerHTML = "&times;";
             eleHeaderToolboxClose.addEventListener("click", event => {
-                if (typeof options.onClosing === "function" && options.onClosing(event)) {
-                    this.close(event);
-                    if (typeof options.onClosed === "function") {
-                        options.onClosed(event);
-                    }
-                } else {
-                    this.close(event);
-                    if (typeof options.onClosed === "function") {
-                        options.onClosed(event);
-                    }
-                }
+                this.removeElement();
             });
             eleHeaderToolbox.appendChild(eleHeaderToolboxClose);
             eleHeader.appendChild(eleHeaderToolbox);
@@ -187,12 +188,12 @@ export interface DialogButton {
 }
 
 export function alert(message: string, callback?: () => void): Dialog;
-export function alert(title: string, message: string, callback: () => void): Dialog;
+export function alert(title: string, message: string, callback?: () => void): Dialog;
 
 export function alert(): Dialog {
     const args = arguments;
     const dialog = new Dialog();
-    const dailogOptions = dialog.finalOptions || {};
+    const dailogOptions = dialog.finalOptions;
     const options: DailogOptions = {};
     options.buttons = [
         {
@@ -204,21 +205,23 @@ export function alert(): Dialog {
         },
     ];
     switch (args.length) {
+        case 1:
+            options.content = args[0];
+            break;
         case 2:
-            options.content = arguments[0];
-            options.buttons[0].onClick = () => {
-                args[1]();
-                dialog.close();
-            };
+            if (typeof args[1] === "function") {
+                options.content = args[0];
+                options.onClosed = args[1];
+            } else {
+                options.title = args[0];
+                options.content = args[1];
+            }
             break;
 
         case 3:
-            options.title = arguments[0];
-            options.content = arguments[1];
-            options.buttons[0].onClick = () => {
-                args[2]();
-                dialog.close();
-            };
+            options.title = args[0];
+            options.content = args[1];
+            options.onClosed = args[2];
             break;
     }
     if (options) {
@@ -234,7 +237,7 @@ export function confirm(title: string, message: string, callback: () => void): D
 export function confirm(): Dialog {
     const args = arguments;
     const dialog = new Dialog();
-    const dialogOptions = dialog.finalOptions || {};
+    const dialogOptions = dialog.finalOptions;
     const options: DailogOptions = {};
     options.buttons = [
         {
