@@ -2,6 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/@bndynet/dialog.svg)](https://www.npmjs.com/package/@bndynet/dialog)
 [![Build Status](https://travis-ci.com/bndynet/dialog.svg?branch=master)](https://travis-ci.com/bndynet/dialog)
+[![Coverage Status](https://coveralls.io/repos/github/bndynet/dialog/badge.svg?branch=master)](https://coveralls.io/github/bndynet/dialog?branch=master)
 [![Code Styles](https://img.shields.io/badge/Code_Style-Prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 An interactive dialog includes alert, confirm and notification like toaster. But can be used in Browser and TypeScript project.
