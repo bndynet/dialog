@@ -4,7 +4,7 @@
   "description": "An interactive dialog for browser includes alert, confirm and notifications",
   "main": "dist/dialog.umd.js",
   "module": "dist/dialog.es5.js",
-  "typings": "dist/types/dialog.d.ts",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
