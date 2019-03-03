@@ -1,46 +1,51 @@
-import { alert, confirm, Dialog } from "../src";
+import { alert, confirm, Modal } from "../src";
 
-describe("Dialog", () => {
-    it("should work when options set", () => {
-        Dialog.setOptions({
-            theme: "custom-theme",
+describe("Modal", () => {
+    it("use constructor to build modal and should show the tips", () => {
+        let modal = new Modal({
+            width: 100,
+            height: "80%",
+            title: "title",
+            tip: "help",
+            content: "content",
+        });
+        modal = new Modal({
             width: 100,
             height: 100,
-            tip: "tip message",
+            title: "title",
+            tip: "help",
+            content: "content",
         });
-        const dialog = new Dialog({
-            buttons: [],
-        });
-        expect(dialog.finalOptions.theme).toBe("custom-theme");
-        expect(dialog.finalOptions.buttons.length).toBe(0);
-        dialog.close();
+        modal.render();
+        expect(document.querySelectorAll(".tip").length).toBe(1);
+        modal.close();
     });
 
     it("should render an overlay div", () => {
-        const dialog = alert("title", "message");
-        expect(document.querySelectorAll(".dialog-overlay").length).toBe(1);
-        dialog.close();
-        expect(document.querySelectorAll(".dialog-overlay").length).toBe(0);
+        const modal = alert("title", "message");
+        expect(document.querySelectorAll(".bn-modal-overlay").length).toBe(1);
+        modal.close();
+        expect(document.querySelectorAll(".bn-modal-overlay").length).toBe(0);
     });
 
     it("should close when click &times icon", () => {
         alert("title", "message", () => {
             setTimeout(() => {
-                expect(document.querySelectorAll(".dialog").length).toBe(0);
+                expect(document.querySelectorAll(".bn-modal").length).toBe(0);
             }, 100);
         });
-        expect(document.querySelectorAll(".dialog").length).toBe(1);
+        expect(document.querySelectorAll(".bn-modal").length).toBe(1);
         document.querySelector<HTMLElement>("[aria-label='Close']").click();
     });
 
     it("should not call onClosed method when onClosing method returns false", () => {
         const fnClosing = jest.fn(() => false);
         const fnClosed = jest.fn();
-        const dialog = new Dialog({
+        const modal = new Modal({
             onClosing: fnClosing,
             onClosed: fnClosed,
         });
-        dialog.close();
+        modal.close();
         expect(fnClosing.mock.calls.length).toBe(1);
         expect(fnClosed.mock.calls.length).toBe(0);
     });
@@ -48,43 +53,43 @@ describe("Dialog", () => {
     it("should cover closing and closed methods when onClosing method returns true", () => {
         let fnClosing = jest.fn(() => true);
         let fnClosed = jest.fn();
-        let dialog = new Dialog({
+        let modal = new Modal({
             onClosing: fnClosing,
             onClosed: fnClosed,
         });
-        dialog.close();
+        modal.close();
         expect(fnClosing.mock.calls.length).toBe(1);
         expect(fnClosed.mock.calls.length).toBe(1);
 
         fnClosing = null;
         fnClosed = jest.fn();
-        dialog = new Dialog({
+        modal = new Modal({
             onClosing: fnClosing,
             onClosed: fnClosed,
         });
-        dialog.close();
+        modal.close();
         expect(fnClosed.mock.calls.length).toBe(1);
     });
 
-    it("should just render one overlay div when multiple dialogs opened, and remove the overlay div when last dialog closed", () => {
-        const dialog1 = alert("message");
-        const dialog2 = confirm("message", () => {
+    it("should just render one overlay div when multiple Modals opened, and remove the overlay div when last Modal closed", () => {
+        const Modal1 = alert("message");
+        const Modal2 = confirm("message", () => {
             // nothing to do
         });
-        const dialog3 = confirm("title", "message", () => {
+        const Modal3 = confirm("title", "message", () => {
             // nothing to do
         });
-        expect(document.querySelectorAll(".dialog-overlay").length).toBe(1);
-        dialog1.close();
-        expect(document.querySelectorAll(".dialog-overlay").length).toBe(1);
-        dialog2.close();
-        expect(document.querySelectorAll(".dialog-overlay").length).toBe(1);
-        dialog3.close();
-        expect(document.querySelectorAll(".dialog-overlay").length).toBe(0);
+        expect(document.querySelectorAll(".bn-modal-overlay").length).toBe(1);
+        Modal1.close();
+        expect(document.querySelectorAll(".bn-modal-overlay").length).toBe(1);
+        Modal2.close();
+        expect(document.querySelectorAll(".bn-modal-overlay").length).toBe(1);
+        Modal3.close();
+        expect(document.querySelectorAll(".bn-modal-overlay").length).toBe(0);
     });
 
-    it("should render multiple buttons for dialog", () => {
-        const dialog = new Dialog({
+    it("should render multiple buttons for Modal", () => {
+        const modal = new Modal({
             buttons: [
                 {
                     label: "a",
@@ -106,24 +111,24 @@ describe("Dialog", () => {
             theme: "",
             content: null,
         });
-        dialog.render();
+        modal.render();
         expect(document.querySelectorAll("button").length).toBe(3);
-        dialog.close();
+        modal.close();
     });
 
     describe("#alert", () => {
         it("should close alert when button clicked", () => {
             alert("title", "message", () => {
                 setTimeout(() => {
-                    expect(document.querySelectorAll(".dialog").length).toBe(0);
+                    expect(document.querySelectorAll(".bn-modal").length).toBe(0);
                 }, 100);
             });
-            expect(document.querySelectorAll(".dialog").length).toBe(1);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(1);
             document.querySelector<HTMLElement>(".btn").click();
 
             alert("title", () => {
                 setTimeout(() => {
-                    expect(document.querySelectorAll(".dialog").length).toBe(0);
+                    expect(document.querySelectorAll(".bn-modal").length).toBe(0);
                 }, 100);
             });
             document.querySelector<HTMLElement>(".btn").click();
@@ -135,23 +140,23 @@ describe("Dialog", () => {
             confirm("confirm", () => {
                 // nothing
             });
-            expect(document.querySelectorAll(".dialog").length).toBe(1);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(1);
             document.querySelectorAll<HTMLElement>(".btn")[0].click();
-            expect(document.querySelectorAll(".dialog").length).toBe(0);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(0);
 
             confirm("confirm", () => {
                 // nothing
             });
-            expect(document.querySelectorAll(".dialog").length).toBe(1);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(1);
             document.querySelectorAll<HTMLElement>(".btn")[1].click();
-            expect(document.querySelectorAll(".dialog").length).toBe(0);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(0);
 
             confirm("confirm", "confirm message", () => {
                 // nothing
             });
-            expect(document.querySelectorAll(".dialog").length).toBe(1);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(1);
             document.querySelectorAll<HTMLElement>(".btn")[1].click();
-            expect(document.querySelectorAll(".dialog").length).toBe(0);
+            expect(document.querySelectorAll(".bn-modal").length).toBe(0);
         });
     });
 });

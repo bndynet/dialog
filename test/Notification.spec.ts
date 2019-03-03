@@ -1,12 +1,7 @@
-import { notify, setNotifier, NotifierOptions } from "../src";
+import { notify, NotificationOptions } from "../src";
 
 describe("Notifier", () => {
-    const options: NotifierOptions = {
-        autoClose: true,
-        square: true,
-    };
     it("should pop up a message with default styles", () => {
-        setNotifier(options);
         notify("This is a message");
         expect(document.getElementsByClassName("default").length).toBe(1);
     });
@@ -22,8 +17,6 @@ describe("Notifier", () => {
     });
 
     it("should limit the message count", done => {
-        options.square = false;
-        setNotifier(options);
         notify("This is a message");
         notify("This is a message");
         notify("This is a message");
@@ -32,7 +25,7 @@ describe("Notifier", () => {
         notify("This is a message");
         notify("This is a message");
         setTimeout(() => {
-            expect(document.getElementsByClassName("notifier-item").length).toBe(3);
+            expect(document.getElementsByClassName("notification-item").length).toBe(3);
             done();
         }, 1000);
     });
@@ -40,7 +33,7 @@ describe("Notifier", () => {
     it("should close all message after 3000 seconds", done => {
         // jest.useFakeTimers();    // solution instead of `done`
         setTimeout(() => {
-            expect(document.getElementsByClassName("notifier-item").length).toBe(0);
+            expect(document.getElementsByClassName("notification-item").length).toBe(0);
             done();
         }, 4000);
         // jest.runAllTimers();

@@ -1,31 +1,23 @@
-export class Dialog {
-    public static defaultOptions: DailogOptions = {
-        labelOK: "OK",
-        labelCancel: "Cancel",
-    };
-    public static setOptions = (options: DailogOptions) => {
-        Object.assign(Dialog.globalOptions, Dialog.defaultOptions, options);
-    }
+import { defaultOptions } from './DialogOptions';
 
+export class Modal {
     private static containerRef: HTMLElement | null = null;
-    private static globalOptions: DailogOptions = Dialog.defaultOptions;
 
-
-    public finalOptions: DailogOptions = {};
+    public finalOptions: ModalOptions;
     private ref: HTMLElement | undefined;
 
-    constructor(options?: DailogOptions) {
-        this.finalOptions = {...Dialog.globalOptions, ...options};
+    constructor(options?: ModalOptions) {
+        this.finalOptions = {labelOK: defaultOptions.labelOK, labelCancel: defaultOptions.labelCancel, ...options};
     }
 
-    public render = (options?: DailogOptions) => {
+    public render = (options?: ModalOptions) => {
         this.finalOptions = {...this.finalOptions, ...options};
         this.ref = this.renderElement();
-        if (!Dialog.containerRef) {
-            Dialog.containerRef = this.renderOverlay();
-            document.body.appendChild(Dialog.containerRef);
+        if (!Modal.containerRef) {
+            Modal.containerRef = this.renderOverlay();
+            document.body.appendChild(Modal.containerRef);
         }
-        Dialog.containerRef.appendChild(this.ref);
+        Modal.containerRef.appendChild(this.ref);
     };
 
     public close = (event?: any) => {
@@ -45,9 +37,9 @@ export class Dialog {
     };
 
     private removeElement = () => {
-        if (Dialog.containerRef && Dialog.containerRef.querySelectorAll(".dialog").length <= 1) {
-            Dialog.containerRef.remove();
-            Dialog.containerRef = null;
+        if (Modal.containerRef && Modal.containerRef.querySelectorAll(".bn-modal").length <= 1) {
+            Modal.containerRef.remove();
+            Modal.containerRef = null;
         } else {
             if (this.ref) {
                 this.ref.remove();
@@ -57,14 +49,14 @@ export class Dialog {
 
     private renderOverlay = (): HTMLElement => {
         const ele = document.createElement("div");
-        ele.setAttribute("class", "dialog-overlay");
+        ele.setAttribute("class", "bn-modal-overlay");
         return document.body.appendChild(ele);
     };
 
     private renderElement = (): HTMLElement => {
         const options = this.finalOptions;
         const eleRoot = document.createElement("div");
-        eleRoot.setAttribute("class", `dialog ${options.css || ""} ${options.theme || ""}`.trim());
+        eleRoot.setAttribute("class", `bn-modal ${options.css || ""} ${options.theme || ""}`.trim());
 
         if (options.width) {
             eleRoot.style.width = options.width.toString();
@@ -73,7 +65,7 @@ export class Dialog {
         let eleHeader: HTMLElement | null = null;
         if (options.title) {
             eleHeader = document.createElement("div");
-            eleHeader.setAttribute("class", "dialog-header");
+            eleHeader.setAttribute("class", "bn-modal-header");
             eleRoot.appendChild(eleHeader);
 
             const eleHeaderTitle = document.createElement("h1");
@@ -93,7 +85,7 @@ export class Dialog {
         }
 
         const eleBody = document.createElement("div");
-        eleBody.setAttribute("class", "dialog-body");
+        eleBody.setAttribute("class", "bn-modal-body");
         eleBody.innerHTML = options.content || "";
         eleRoot.appendChild(eleBody);
 
@@ -119,9 +111,9 @@ export class Dialog {
         return eleRoot;
     };
 
-    private renderFooter = (options: DailogOptions): HTMLElement => {
+    private renderFooter = (options: ModalOptions): HTMLElement => {
         const ele = document.createElement("div");
-        ele.setAttribute("class", "dialog-footer");
+        ele.setAttribute("class", "bn-modal-footer");
         if (options.tip) {
             ele.appendChild(this.renderTip(options.tip));
         }
@@ -138,7 +130,7 @@ export class Dialog {
         return ele;
     };
 
-    private renderButtons = (buttons: DialogButton[]): HTMLElement => {
+    private renderButtons = (buttons: ModalButton[]): HTMLElement => {
         const eleContainer = document.createElement("div");
         eleContainer.setAttribute("class", "actions-container");
         if (buttons && buttons.length > 0) {
@@ -165,7 +157,7 @@ export class Dialog {
     };
 }
 
-export interface DailogOptions {
+export interface ModalOptions {
     theme?: string;
     content?: string;
     title?: string;
@@ -173,34 +165,34 @@ export interface DailogOptions {
     css?: string;
     width?: number | string;
     height?: number | string;
-    buttons?: DialogButton[];
+    buttons?: ModalButton[];
     onClosing?: (event: any) => boolean;
     onClosed?: (event: any) => void;
     labelOK?: string;
     labelCancel?: string;
 }
 
-export interface DialogButton {
+export interface ModalButton {
     label: string;
     style?: string;
     css?: string;
-    onClick?: (dialog: Dialog) => void;
+    onClick?: (Modal: Modal) => void;
 }
 
-export function alert(message: string, callback?: () => void): Dialog;
-export function alert(title: string, message: string, callback?: () => void): Dialog;
+export function alert(message: string, callback?: () => void): Modal;
+export function alert(title: string, message: string, callback?: () => void): Modal;
 
-export function alert(): Dialog {
+export function alert(): Modal {
     const args = arguments;
-    const dialog = new Dialog();
-    const dailogOptions = dialog.finalOptions;
-    const options: DailogOptions = {};
+    const modal = new Modal();
+    const modalOptions = modal.finalOptions;
+    const options: ModalOptions = {};
     options.buttons = [
         {
-            label: dailogOptions.labelOK as string,
+            label: modalOptions.labelOK as string,
             css: "btn btn-primary",
             onClick: () => {
-                dialog.close();
+                modal.close();
             },
         },
     ];
@@ -225,30 +217,30 @@ export function alert(): Dialog {
             break;
     }
     if (options) {
-        dialog.render(options);
+        modal.render(options);
     }
-    return dialog;
+    return modal;
 }
 
-export function confirm(options: DailogOptions): Dialog;
-export function confirm(message: string, callback: () => void): Dialog;
-export function confirm(title: string, message: string, callback: () => void): Dialog;
+export function confirm(options: ModalOptions): Modal;
+export function confirm(message: string, callback: () => void): Modal;
+export function confirm(title: string, message: string, callback: () => void): Modal;
 
-export function confirm(): Dialog {
+export function confirm(): Modal {
     const args = arguments;
-    const dialog = new Dialog();
-    const dialogOptions = dialog.finalOptions;
-    const options: DailogOptions = {};
+    const modal = new Modal();
+    const modalOptions = modal.finalOptions;
+    const options: ModalOptions = {};
     options.buttons = [
         {
-            label: dialogOptions.labelCancel as string,
+            label: modalOptions.labelCancel as string,
             css: "btn btn-default btn-light",
             onClick: () => {
-                dialog.close();
+                modal.close();
             },
         },
         {
-            label: dialogOptions.labelOK as string,
+            label: modalOptions.labelOK as string,
             css: "btn btn-primary",
         },
     ];
@@ -257,7 +249,7 @@ export function confirm(): Dialog {
             options.content = arguments[0];
             options.buttons[1].onClick = () => {
                 args[1]();
-                dialog.close();
+                modal.close();
             };
             break;
 
@@ -266,12 +258,12 @@ export function confirm(): Dialog {
             options.content = arguments[1];
             options.buttons[1].onClick = () => {
                 args[2]();
-                dialog.close();
+                modal.close();
             };
             break;
     }
     if (options) {
-        dialog.render(options);
+        modal.render(options);
     }
-    return dialog;
+    return modal;
 }

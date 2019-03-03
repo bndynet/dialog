@@ -1,4 +1,5 @@
 import "./styles/core.scss";
 
-export * from "./scripts/Dialog";
-export * from "./scripts/Notifier";
+export * from "./scripts/DialogOptions";
+export * from "./scripts/Modal";
+export * from "./scripts/Notification";
