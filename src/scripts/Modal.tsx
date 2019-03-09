@@ -7,7 +7,12 @@ export class Modal {
     private ref: HTMLElement | undefined;
 
     constructor(options?: ModalOptions) {
-        this.finalOptions = {labelOK: defaultOptions.labelOK, labelCancel: defaultOptions.labelCancel, ...options};
+        this.finalOptions = {
+            labelOK: defaultOptions.labelOK,
+            labelCancel: defaultOptions.labelCancel,
+            animate: defaultOptions.animate,
+            ...options
+        };
     }
 
     public render = (options?: ModalOptions) => {
@@ -56,7 +61,7 @@ export class Modal {
     private renderElement = (): HTMLElement => {
         const options = this.finalOptions;
         const eleRoot = document.createElement("div");
-        eleRoot.setAttribute("class", `bn-modal ${options.css || ""} ${options.theme || ""}`.trim());
+        eleRoot.setAttribute("class", `bn-modal ${options.animate ? "animated" : ""} ${options.css || ""} ${options.theme || ""}`.trim());
 
         if (options.width) {
             eleRoot.style.width = options.width.toString();
@@ -158,6 +163,7 @@ export class Modal {
 }
 
 export interface ModalOptions {
+    animate?: boolean;
     theme?: string;
     content?: string;
     title?: string;
