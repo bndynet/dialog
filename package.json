@@ -1,6 +1,6 @@
 {
   "name": "@bndynet/dialog",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "An interactive dialog for browser includes alert, confirm and notifications",
   "main": "dist/dialog.umd.js",
   "module": "dist/dialog.es5.js",
