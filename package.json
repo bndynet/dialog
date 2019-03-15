@@ -25,7 +25,16 @@
     "init": "ts-node tools/init.ts",
     "prepublishOnly": "ts-node tools/inject-copyright"
   },
-  "keywords": [],
+  "keywords": [
+    "dialog",
+    "modal",
+    "alert",
+    "confirm",
+    "alertify",
+    "notification",
+    "toast",
+    "toaster"
+  ],
   "author": {
     "name": "Bendy Zhang",
     "email": "zb@bndy.net"

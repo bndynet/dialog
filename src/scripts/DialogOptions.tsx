@@ -1,6 +1,7 @@
 export interface DialogOptions {
     labelOK?: string,
     labelCancel?: string,
+    animate?: boolean,
     notificationAutoClose?: boolean;
     notificationClickClose?: boolean;
     notificationCloseDelay?: number;
@@ -13,6 +14,7 @@ export interface DialogOptions {
 export let defaultOptions: DialogOptions = {
     labelOK: "OK",
     labelCancel: "Cancel",
+    animate: true,
     notificationAutoClose: true,
     notificationClickClose: true,
     notificationCloseDelay: 3000,
