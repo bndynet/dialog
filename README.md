@@ -14,7 +14,7 @@ An interactive dialog includes alert, confirm and notification like toaster. But
 Use `npm install @bndynet/dialog` to install package, and import them like below:
 
 ```typescript
-import { alert, confirm, notify } from "@bndynet/dialog";
+import { alert, confirm, notify, loading } from "@bndynet/dialog";
 ```
 
 ### For Website
@@ -51,5 +51,9 @@ The UMD build is also available on unpkg.com, and you can add to your website li
     dialog.confirm("title", "content", function() {});
 
     dialog.notify("Message"[, "success"|"warning"|"error"]);
+
+    dialog.loading();
+    dialog.loading(false);  // hide the global loading box
+    dialog.loading({text: "Loading"});
 </script>
 ```
