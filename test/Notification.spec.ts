@@ -1,6 +1,6 @@
-import { notify, NotificationOptions } from "../src";
+import { notify } from "../src";
 
-describe("Notifier", () => {
+describe("Notification", () => {
     it("should pop up a message with default styles", () => {
         notify("This is a message");
         expect(document.getElementsByClassName("default").length).toBe(1);
@@ -17,7 +17,7 @@ describe("Notifier", () => {
     });
 
     it("should limit the message count", done => {
-        notify("This is a message");
+        notify({ message: "message", square: true });
         notify("This is a message");
         notify("This is a message");
         notify("This is a message");
