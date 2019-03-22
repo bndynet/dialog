@@ -8,15 +8,16 @@ export interface NotificationOptions {
     placement?: string;
     maxItems?: number;
     square?: boolean;
+    message: string;
 }
 
-class Notification {
+export class Notification {
     private static refContainer: HTMLElement;
 
     private ref?: HTMLElement;
     private finalOptions: NotificationOptions;
 
-    constructor(options?: NotificationOptions) {
+    constructor(options: NotificationOptions) {
         this.finalOptions = {
             autoClose: defaultOptions.notificationAutoClose,
             clickClose: defaultOptions.notificationClickClose,
@@ -29,7 +30,7 @@ class Notification {
         };
     }
 
-    public show = (message: string) => {
+    public show = () => {
         if (Notification.refContainer) {
             const itemCount  = Notification.refContainer.querySelectorAll(".notification-item").length;
             if ( itemCount>= this.finalOptions.maxItems!) {
@@ -40,7 +41,7 @@ class Notification {
                 });
             }
         }
-        return this.renderItem(message);
+        return this.renderItem(this.finalOptions.message);
     }
 
     public close = (item?: HTMLElement) => {
@@ -86,10 +87,15 @@ class Notification {
     }
 }
 
-export function notify(message: string, theme?: string) {
-    const notification = new Notification({
-        theme: theme || "default",
-        autoClose: true,
-    });
-    notification.show(message);
+export function notify(messageOrOptions: string | NotificationOptions, theme?: string) {
+    if (typeof messageOrOptions === "object") {
+        new Notification(messageOrOptions).show();
+    } else {
+        const notification = new Notification({
+            theme: theme || "default",
+            autoClose: true,
+            message: messageOrOptions,
+        });
+        notification.show();
+    }
 }
