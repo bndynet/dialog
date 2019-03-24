@@ -1,5 +1,5 @@
 export interface LoadingOptions {
-    targetEl?: HTMLElement;
+    targetEl?: Element | null;
     inline?: boolean;
     text?: string;
     color?: string;
@@ -90,14 +90,23 @@ export class Loading {
     };
 }
 
-export function loading(args?: boolean | LoadingOptions) {
+export function loading(args?: boolean | LoadingOptions): Loading | null {
     if (args === false) {
         if (Loading.globalInstance) {
             Loading.globalInstance.hide();
         }
+        return null;
     } else if (typeof args === "object") {
         return new Loading(args).show();
     } else {
         return new Loading().show();
     }
+}
+
+export function loadingFor(selector: string, loadingText?: string, color?: string): Loading {
+    return new Loading({
+        targetEl: document.querySelector(selector),
+        text: loadingText,
+        color,
+    }).show();
 }
