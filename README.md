@@ -1,5 +1,8 @@
 # Dialog
 
+[DEMO](https://bndynet.github.io/dialog/site/) |
+[API DOCS](https://bndynet.github.io/dialog/api/)
+
 [![npm](https://img.shields.io/npm/v/@bndynet/dialog.svg)](https://www.npmjs.com/package/@bndynet/dialog)
 [![Build Status](https://travis-ci.com/bndynet/dialog.svg?branch=master)](https://travis-ci.com/bndynet/dialog)
 [![Coverage Status](https://coveralls.io/repos/github/bndynet/dialog/badge.svg?branch=master)](https://coveralls.io/github/bndynet/dialog?branch=master)
