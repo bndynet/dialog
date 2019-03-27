@@ -1,5 +1,8 @@
 # Dialog
 
+[DEMO](https://bndynet.github.io/dialog/site/) |
+[API DOCS](https://bndynet.github.io/dialog/api/)
+
 [![npm](https://img.shields.io/npm/v/@bndynet/dialog.svg)](https://www.npmjs.com/package/@bndynet/dialog)
 [![Build Status](https://travis-ci.com/bndynet/dialog.svg?branch=master)](https://travis-ci.com/bndynet/dialog)
 [![Coverage Status](https://coveralls.io/repos/github/bndynet/dialog/badge.svg?branch=master)](https://coveralls.io/github/bndynet/dialog?branch=master)
@@ -14,7 +17,7 @@ An interactive dialog includes alert, confirm and notification like toaster. But
 Use `npm install @bndynet/dialog` to install package, and import them like below:
 
 ```typescript
-import { alert, confirm, notify, loading } from "@bndynet/dialog";
+import { alert, confirm, notify, loading, loadingFor } from "@bndynet/dialog";
 ```
 
 ### For Website
@@ -56,5 +59,9 @@ The UMD build is also available on unpkg.com, and you can add to your website li
     dialog.loading();
     dialog.loading(false);  // hide the global loading box
     dialog.loading({text: "Loading"});
+
+    // loading box for element
+    var elLoading = dialog.loadingFor("#id", "Loading...", "#00ff00");
+    elLoading.hide();
 </script>
 ```
