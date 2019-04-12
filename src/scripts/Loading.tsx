@@ -1,3 +1,4 @@
+/** The options for loading component */
 export interface LoadingOptions {
     targetEl?: Element | null;
     inline?: boolean;
@@ -5,6 +6,9 @@ export interface LoadingOptions {
     color?: string;
 }
 
+/**
+ * The loading component class.
+ */
 export class Loading {
     public static globalInstance: Loading | null;
 
@@ -16,6 +20,9 @@ export class Loading {
         this.refEl = null;
     }
 
+    /**
+     * Shows the loading component.
+     */
     public show() {
         this.render();
         if (this.isGlobal()) {
@@ -24,6 +31,9 @@ export class Loading {
         return this;
     }
 
+    /**
+     * Hides the loading component.
+     */
     public hide() {
         if (this.refEl) {
             this.refEl.remove();
@@ -90,6 +100,12 @@ export class Loading {
     };
 }
 
+/**
+ * Shows or hides a loading component for page.
+ *
+ * @param args  false to hide the loading component, or [[LoadingOptions]] interface
+ * @returns null if `args` is false, otherwise a [[Loading]] instance
+ */
 export function loading(args?: boolean | LoadingOptions): Loading | null {
     if (args === false) {
         if (Loading.globalInstance) {
@@ -103,6 +119,15 @@ export function loading(args?: boolean | LoadingOptions): Loading | null {
     }
 }
 
+/**
+ * Shows or hides a loading component for element.
+ *
+ * @param selector The element selector
+ * @param loadingText The loading text
+ * @param color The loading component color
+ *
+ * @returns A instance of [[Loading]] compnent
+ */
 export function loadingFor(selector: string, loadingText?: string, color?: string): Loading {
     return new Loading({
         targetEl: document.querySelector(selector),

@@ -1,5 +1,8 @@
 import { defaultOptions } from './DialogOptions';
 
+/**
+ * The Modal component for building alert and confirm dialog.
+ */
 export class Modal {
     private static containerRef: HTMLElement | null = null;
 
@@ -15,6 +18,10 @@ export class Modal {
         };
     }
 
+    /**
+     * Renders a [[Modal]] instance with options.
+     * @param options The modal options, see the [[ModalOptions]] interface
+     */
     public render = (options?: ModalOptions) => {
         this.finalOptions = {...this.finalOptions, ...options};
         this.ref = this.renderElement();
@@ -25,6 +32,11 @@ export class Modal {
         Modal.containerRef.appendChild(this.ref);
     };
 
+    /**
+     * Closes the [[Modal]] instance.
+     *
+     * @param event The close event
+     */
     public close = (event?: any) => {
         if (typeof this.finalOptions.onClosing === "function") {
             if (this.finalOptions.onClosing(event)) {
@@ -162,6 +174,7 @@ export class Modal {
     };
 }
 
+/** The options for [[Modal]] */
 export interface ModalOptions {
     animate?: boolean;
     theme?: string;
@@ -178,6 +191,7 @@ export interface ModalOptions {
     labelCancel?: string;
 }
 
+/** The button definition for [[Modal]] buttons */
 export interface ModalButton {
     label: string;
     style?: string;
@@ -185,9 +199,24 @@ export interface ModalButton {
     onClick?: (Modal: Modal) => void;
 }
 
+/**
+ * Shows an alert dialog.
+ * @param message The alert message
+ * @param callback The callback function when you click ok button
+ */
 export function alert(message: string, callback?: () => void): Modal;
+
+/**
+ * Shows an alert dialog.
+ * @param title The alert dialog title
+ * @param message The alert dialog message
+ * @param callback The callback function when you click ok button
+ */
 export function alert(title: string, message: string, callback?: () => void): Modal;
 
+/**
+ * Shows an alert dialog according to the specified arguments.
+ */
 export function alert(): Modal {
     const args = arguments;
     const modal = new Modal();
@@ -228,10 +257,31 @@ export function alert(): Modal {
     return modal;
 }
 
+/**
+ * Shows a confirm dialog.
+ * @param options The modal options, see [[ModalOptions]] interface
+ * @returns A [[Modal]] instance
+ */
 export function confirm(options: ModalOptions): Modal;
+/**
+ * Shows a confirm dialog.
+ * @param message The confirm message
+ * @param callback The callback function when click ok button
+ * @returns A [[Modal]] instance
+ */
 export function confirm(message: string, callback: () => void): Modal;
+/**
+ * Shows a confirm dialog.
+ * @param title The confirm title
+ * @param message The confirm message
+ * @param callback The callback function when click ok button
+ * @returns A [[Modal]] instance
+ */
 export function confirm(title: string, message: string, callback: () => void): Modal;
 
+/**
+ * Shows an confirm dialog according to the specified arguments.
+ */
 export function confirm(): Modal {
     const args = arguments;
     const modal = new Modal();

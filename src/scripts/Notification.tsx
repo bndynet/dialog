@@ -1,5 +1,6 @@
 import { defaultOptions } from './DialogOptions';
 
+/** The options for [[Notification]] */
 export interface NotificationOptions {
     autoClose?: boolean;
     clickClose?: boolean;
@@ -11,6 +12,9 @@ export interface NotificationOptions {
     message: string;
 }
 
+/**
+ * The notification component for popping up notifications.
+ */
 export class Notification {
     private static refContainer: HTMLElement;
 
@@ -30,6 +34,9 @@ export class Notification {
         };
     }
 
+    /**
+     * Shows a notification
+     */
     public show = () => {
         if (Notification.refContainer) {
             const itemCount  = Notification.refContainer.querySelectorAll(".notification-item").length;
@@ -44,6 +51,10 @@ export class Notification {
         return this.renderItem(this.finalOptions.message);
     }
 
+    /**
+     * Closes the notification
+     * @param item The notification item typed [[HTMLElement]]
+     */
     public close = (item?: HTMLElement) => {
         if (item) {
             const css = item.getAttribute("class")!.replace("notification-item-show", "notification-item-hidden");
@@ -87,6 +98,11 @@ export class Notification {
     }
 }
 
+/**
+ * Shows a notification with options.
+ * @param messageOrOptions The notification message or [[NotificationOptions]]
+ * @param theme The notification theme, can be `success`, `warning`, `error` and `default`
+ */
 export function notify(messageOrOptions: string | NotificationOptions, theme?: string) {
     if (typeof messageOrOptions === "object") {
         new Notification(messageOrOptions).show();

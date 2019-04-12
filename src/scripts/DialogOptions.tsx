@@ -1,3 +1,5 @@
+
+/** All options for dialog */
 export interface DialogOptions {
     labelOK?: string,
     labelCancel?: string,
@@ -11,6 +13,7 @@ export interface DialogOptions {
     notificationSquare?: boolean;
 }
 
+/** The default options for dialog */
 export let defaultOptions: DialogOptions = {
     labelOK: "OK",
     labelCancel: "Cancel",
@@ -24,6 +27,11 @@ export let defaultOptions: DialogOptions = {
     notificationSquare: false,
 };
 
+/**
+ * Sets global options for dialog.
+ *
+ * @param options  The dialog options
+ */
 export function setup(options: DialogOptions) {
     defaultOptions = {...defaultOptions, ...options};
 }
