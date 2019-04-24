@@ -162,8 +162,9 @@ describe("Modal", () => {
 
     describe("#iframe", () => {
         it("should render an iframe element for external url", () => {
-            iframe("http://bndy.net", "External URL");
-            expect(document.getElementsByTagName("iframe").length).toBe(1);
+            const modal = iframe("http://bndy.net", "External URL");
+            expect(document.querySelectorAll(".theme-iframe").length).toBe(1);
+            modal.close();
         });
     });
 });
