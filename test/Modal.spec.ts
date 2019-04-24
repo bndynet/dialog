@@ -1,4 +1,4 @@
-import { alert, confirm, Modal } from "../src";
+import { alert, confirm, Modal, iframe } from "../src";
 
 describe("Modal", () => {
     it("use constructor to build modal and should show the tips", () => {
@@ -157,6 +157,13 @@ describe("Modal", () => {
             expect(document.querySelectorAll(".bn-modal").length).toBe(1);
             document.querySelectorAll<HTMLElement>(".btn")[1].click();
             expect(document.querySelectorAll(".bn-modal").length).toBe(0);
+        });
+    });
+
+    describe("#iframe", () => {
+        it("should render an iframe element for external url", () => {
+            iframe("http://bndy.net", "External URL");
+            expect(document.getElementsByTagName("iframe").length).toBe(1);
         });
     });
 });

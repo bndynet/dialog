@@ -24,12 +24,12 @@ export class Modal {
      */
     public render = (options?: ModalOptions) => {
         this.finalOptions = {...this.finalOptions, ...options};
-        this.ref = this.renderElement();
         if (!Modal.containerRef) {
             Modal.containerRef = this.renderOverlay();
             document.body.appendChild(Modal.containerRef);
         }
-        Modal.containerRef.appendChild(this.ref);
+        this.renderElement();
+
     };
 
     /**
@@ -67,20 +67,26 @@ export class Modal {
     private renderOverlay = (): HTMLElement => {
         const ele = document.createElement("div");
         ele.setAttribute("class", "bn-modal-overlay");
-        return document.body.appendChild(ele);
+        document.body.appendChild(ele);
+        return ele;
     };
 
     private renderElement = (): HTMLElement => {
         const options = this.finalOptions;
         const eleRoot = document.createElement("div");
         eleRoot.setAttribute("class", `bn-modal ${options.animate ? "animated" : ""} ${options.css || ""} ${options.theme || ""}`.trim());
+        this.ref = eleRoot;
+        if (Modal.containerRef) {
+            Modal.containerRef.appendChild(this.ref);
+        }
 
         if (options.width) {
             eleRoot.style.width = options.width.toString();
         }
 
-        let eleHeader: HTMLElement | null = null;
+        let headerHeight = 0;
         if (options.title) {
+            let eleHeader: HTMLElement | null = null;
             eleHeader = document.createElement("div");
             eleHeader.setAttribute("class", "bn-modal-header");
             eleRoot.appendChild(eleHeader);
@@ -99,27 +105,35 @@ export class Modal {
             });
             eleHeaderToolbox.appendChild(eleHeaderToolboxClose);
             eleHeader.appendChild(eleHeaderToolbox);
+
+            headerHeight = eleHeader.clientHeight;
         }
 
-        const eleBody = document.createElement("div");
-        eleBody.setAttribute("class", "bn-modal-body");
-        eleBody.innerHTML = options.content || "";
+        // check whether the content is URL
+        let eleBody;
+        if (options.content && options.content.toUpperCase().startsWith("HTTP")) {
+            eleBody = document.createElement("iframe");
+            eleBody.setAttribute("src", options.content);
+            eleBody.setAttribute("class", "bn-modal-body");
+        } else {
+            eleBody = document.createElement("div");
+            eleBody.setAttribute("class", "bn-modal-body");
+            eleBody.innerHTML = options.content || "";
+        }
         eleRoot.appendChild(eleBody);
 
-        const eleFooter = this.renderFooter(options);
-        eleRoot.appendChild(eleFooter);
+        let footerHeight = 0;
+        if ((options.buttons && options.buttons.length > 0) || options.tip) {
+            const eleFooter = this.renderFooter(options);
+            eleRoot.appendChild(eleFooter);
+            footerHeight = eleFooter.clientHeight;
+        }
 
         let height: number | string | null = null;
         if (options.height && typeof options.height === "number") {
-            height = options.height;
-            if (eleHeader) {
-                height = height - eleHeader.clientHeight;
-            }
-            if (eleFooter) {
-                height = height - eleFooter.clientHeight;
-            }
+            height = options.height - headerHeight - footerHeight;
         } else if (typeof options.height === "string") {
-            height = `calc(100vh - ${eleHeader ? eleHeader.clientHeight : 0}px - ${eleFooter ? eleFooter.clientHeight : 0}px)`;
+            height = `calc(${options.height} - ${headerHeight}px - ${footerHeight}px)`;
         }
         if (height) {
             eleBody.style.height = height.toString();
@@ -222,6 +236,7 @@ export function alert(): Modal {
     const modal = new Modal();
     const modalOptions = modal.finalOptions;
     const options: ModalOptions = {};
+    options.theme = "theme-alert";
     options.buttons = [
         {
             label: modalOptions.labelOK as string,
@@ -286,7 +301,9 @@ export function confirm(): Modal {
     const args = arguments;
     const modal = new Modal();
     const modalOptions = modal.finalOptions;
-    const options: ModalOptions = {};
+    const options: ModalOptions = {
+        theme: "theme-confirm",
+    };
     options.buttons = [
         {
             label: modalOptions.labelCancel as string,
@@ -321,5 +338,23 @@ export function confirm(): Modal {
     if (options) {
         modal.render(options);
     }
+    return modal;
+}
+
+/**
+ * Opens a window with iframe element for opening the specified url.
+ * @param url The url to open
+ * @param title The window title. If empty, show the url
+ * @param options The [[ModalOptions]] like {width: '80%', height: '80%'}
+ */
+export function iframe(url: string, title: string, options?: ModalOptions) : Modal {
+    options = {
+        content: url,
+        theme: "theme-iframe",
+        title: title || url,
+        ...options,
+    };
+    const modal = new Modal(options);
+    modal.render();
     return modal;
 }

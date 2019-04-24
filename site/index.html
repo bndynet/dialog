@@ -8,7 +8,6 @@
         <link rel="icon" type="image/png" sizes="32x32" href="https://static.bndy.net/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="https://static.bndy.net/favicon-16x16.png" />
         <link rel="mask-icon" href="https://static.bndy.net/safari-pinned-tab.svg" color="#5bbad5" />
-        <link rel="stylesheet" href="style.css" />
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -18,6 +17,8 @@
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/github-markdown-css/github-markdown.css" />
         <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+
+        <link rel="stylesheet" href="style.css" />
 
         <!-- dev -->
         <link href="../dist/dialog.css" rel="stylesheet" type="text/css" />
@@ -90,6 +91,9 @@
                 </button>
                 <button class="btn btn-light" onclick='dialog.confirm("Title", "Confirm Message", function(e) { alert("Clicked ok"); });'>
                     Confirm with Title
+                </button>
+                <button class="btn btn-light" onclick='dialog.iframe("http://bndy.net")'>
+                    Open external url
                 </button>
 
                 <hr />
