@@ -17,7 +17,7 @@ An interactive dialog includes alert, confirm and notification like toaster. But
 Use `npm install @bndynet/dialog` to install package, and import them like below:
 
 ```typescript
-import { alert, confirm, notify, loading, loadingFor } from "@bndynet/dialog";
+import { alert, confirm, notify, loading, loadingFor, iframe } from "@bndynet/dialog";
 ```
 
 ### For Website

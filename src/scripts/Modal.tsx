@@ -109,9 +109,14 @@ export class Modal {
             headerHeight = eleHeader.clientHeight;
         }
 
-        // check whether the content is URL
+        // check whether the content is URI
         let eleBody;
-        if (options.content && options.content.toUpperCase().startsWith("HTTP")) {
+        if (options.content && (
+                options.content.toUpperCase().startsWith("HTTP:") ||
+                options.content.toUpperCase().startsWith("HTTPS:") ||
+                options.content.toUpperCase().startsWith("FILE:") ||    // maybe browsers disable access local resoruces, like Chrome, Firefox
+                options.content.toUpperCase().startsWith("FTP:") ||
+                options.content.startsWith("/"))) {
             eleBody = document.createElement("iframe");
             eleBody.setAttribute("src", options.content);
             eleBody.setAttribute("class", "bn-modal-body");
