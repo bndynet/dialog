@@ -110,13 +110,10 @@ export class Modal {
         }
 
         // check whether the content is URI
+        // maybe browsers disable access local resoruces, like Chrome, Firefox
         let eleBody;
-        if (options.content && (
-                options.content.toUpperCase().startsWith("HTTP:") ||
-                options.content.toUpperCase().startsWith("HTTPS:") ||
-                options.content.toUpperCase().startsWith("FILE:") ||    // maybe browsers disable access local resoruces, like Chrome, Firefox
-                options.content.toUpperCase().startsWith("FTP:") ||
-                options.content.startsWith("/"))) {
+        if (options.content && options.content.startsWith("URI:")) {
+            options.content = options.content.replace("URI:", "");
             eleBody = document.createElement("iframe");
             eleBody.setAttribute("src", options.content);
             eleBody.setAttribute("class", "bn-modal-body");
@@ -347,16 +344,16 @@ export function confirm(): Modal {
 }
 
 /**
- * Opens a window with iframe element for opening the specified url.
- * @param url The url to open
+ * Opens a window with iframe element for opening the specified uri.
+ * @param uri The uri to open
  * @param title The window title. If empty, show the url
  * @param options The [[ModalOptions]] like {width: '80%', height: '80%'}
  */
-export function iframe(url: string, title: string, options?: ModalOptions) : Modal {
+export function iframe(uri: string, title: string, options?: ModalOptions) : Modal {
     options = {
-        content: url,
+        content: `URI:${uri}`,
         theme: "theme-iframe",
-        title: title || url,
+        title: title || uri,
         ...options,
     };
     const modal = new Modal(options);
