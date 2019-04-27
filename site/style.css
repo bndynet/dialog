@@ -21,6 +21,9 @@ main section {
     padding-top: 15px;
     margin-bottom: 20px;
 }
+main section h1 {
+    margin-bottom: 1rem;
+}
 hr {
     margin: 15px 0;
 }
@@ -38,4 +41,5 @@ hr {
 }
 .box.with-border {
     border: solid 1px #ddd;
+    border-radius: 5px;
 }

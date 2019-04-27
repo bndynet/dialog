@@ -1,6 +1,7 @@
 
 /** All options for dialog */
 export interface DialogOptions {
+    theme?: string;
     labelOK?: string,
     labelCancel?: string,
     animate?: boolean,
@@ -34,4 +35,7 @@ export let defaultOptions: DialogOptions = {
  */
 export function setup(options: DialogOptions) {
     defaultOptions = {...defaultOptions, ...options};
+    if (defaultOptions.theme) {
+        document.body.classList.add(defaultOptions.theme);
+    }
 }
