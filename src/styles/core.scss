@@ -79,7 +79,7 @@
                     margin-left: 8px;
                     width: 24px;
                     height: 24px;
-                    line-height: 24px;
+                    line-height: 22px;
                     text-align: center;
                     border-radius: 50%;
                     cursor: pointer;
@@ -259,11 +259,11 @@ $loading-color: #333;
     div {
         display: inline-block;
         margin: 0 2px;
-        width: 0.4em;
-        height: 0.8em;
+        width: 0.3em;
+        height: 0.6em;
         background: $loading-color;
         animation: loading-element 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
-        border-radius: 2px;
+        border-radius: 1px;
         &:nth-child(1) {
             animation-delay: -0.24s;
         }
@@ -285,9 +285,10 @@ $loading-color: #333;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     z-index: 5100;
+    border-radius: 3px;
 
     &.inline {
-        padding: 0.75em;
+        padding: 0.5em;
 
         .bn-loading-container {
             margin: inherit;
@@ -317,10 +318,10 @@ $loading-color: #333;
                 width: 0.9em;
                 height: 0.9em;
                 border-radius: 50%;
-                border-top: 2px solid rgba(0, 0, 0, 0.1);
-                border-right: 2px solid rgba(0, 0, 0, 0.1);
-                border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-                border-left: 2px solid $loading-color;
+                border-width: 2px;
+                border-style: solid;
+                border-color: rgba(#dddddd, 0.5);
+                border-left-color: $loading-color;
                 animation: rotate 1s infinite linear;
             }
         }

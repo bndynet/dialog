@@ -1,7 +1,6 @@
 dialog.setup({
     labelOK: "确定",
     labelCancel: "取消",
-    animate: true,
 });
 
 dialog.loading({text: "Loading"});
