@@ -43,3 +43,10 @@ hr {
     border: solid 1px #ddd;
     border-radius: 5px;
 }
+
+#changelog-body h1 {
+    margin-bottom: 0;
+}
+#changelog-body h3 {
+    margin: 0.5rem 0;
+}
