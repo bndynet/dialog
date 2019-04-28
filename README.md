@@ -1,7 +1,8 @@
 # Dialog
 
-[DEMO](https://bndynet.github.io/dialog/site/) |
-[API DOCS](https://bndynet.github.io/dialog/api/)
+[Demo](https://bndynet.github.io/dialog/site/) |
+[API Docs](https://bndynet.github.io/dialog/api/) |
+[Themes](https://bndynet.github.io/dialog-themes)
 
 [![npm](https://img.shields.io/npm/v/@bndynet/dialog.svg)](https://www.npmjs.com/package/@bndynet/dialog)
 [![Build Status](https://travis-ci.com/bndynet/dialog.svg?branch=master)](https://travis-ci.com/bndynet/dialog)
@@ -35,6 +36,7 @@ The UMD build is also available on unpkg.com, and you can add to your website li
 
 <script>
     dialog.setup({
+        theme: "your-theme",    // will be appended the `class` attribute of `body` tag
         labelOK: "OK",
         labelCancel: "Cancel",
         animate: true,
