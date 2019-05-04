@@ -99,7 +99,7 @@
                 <button class="btn btn-light" onclick='dialog.iframe("https://bndy.net")'>
                     Open external url
                 </button>
-                <button class="btn btn-light" onclick='dialog.element("modal-dialog-form", "Form", {width: 800, height: 600})'>
+                <button id="btn-openelement" class="btn btn-light">
                     Open a form
                 </button>
                 <div id="modal-dialog-form" class="hidden">
@@ -108,10 +108,18 @@
                             Placeholder for form
                         </h5>
                         <div>
-                            <input type="text" />
+                            <input id="name" type="text" />
                         </div>
                     </form>
                 </div>
+                <script type="text/javascript">
+                    document.getElementById("btn-openelement").addEventListener("click", function() {
+                        var d = dialog.element("modal-dialog-form", "Form", {width: 800, height: 600, onClosing: () => {
+                            document.getElementById("name").value = "";
+                            return true;
+                        }});
+                    });
+                </script>
 
                 <hr />
                 <button class="btn btn-light" onclick='dialog.notify("Message" + Date.now())'>
