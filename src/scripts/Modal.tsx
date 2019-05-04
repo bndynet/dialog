@@ -112,12 +112,24 @@ export class Modal {
         // check whether the content is URI
         // maybe browsers disable access local resoruces, like Chrome, Firefox
         let eleBody;
-        if (options.content && options.content.startsWith("URI:")) {
-            options.content = options.content.replace("URI:", "");
-            eleBody = document.createElement("iframe");
-            eleBody.setAttribute("src", options.content);
-            eleBody.setAttribute("class", "bn-modal-body");
-        } else {
+        if (options.content) {
+            if (options.content.startsWith("URI:")) {
+                options.content = options.content.replace("URI:", "");
+                eleBody = document.createElement("iframe");
+                eleBody.setAttribute("src", options.content);
+                eleBody.setAttribute("class", "bn-modal-body");
+            } else if (options.content.startsWith("#")) {
+                eleBody = document.createElement("div");
+                const elem = document.getElementById(options.content.replace("#", ""));
+                if (elem) {
+                    const elemCopy = elem.cloneNode(true) as HTMLElement;
+                    elemCopy.style.display = "block";
+                    eleBody.appendChild(elemCopy);
+                }
+                eleBody.setAttribute("class", "bn-modal-body");
+            }
+        }
+        if (!eleBody) {
             eleBody = document.createElement("div");
             eleBody.setAttribute("class", "bn-modal-body");
             eleBody.innerHTML = options.content || "";
@@ -354,6 +366,24 @@ export function iframe(uri: string, title: string, options?: ModalOptions) : Mod
         content: `URI:${uri}`,
         theme: "theme-iframe",
         title: title || uri,
+        ...options,
+    };
+    const modal = new Modal(options);
+    modal.render();
+    return modal;
+}
+
+/**
+ * Opens a modal dialog and appends the ID element.
+ * @param id The element ID
+ * @param title The dialog title
+ * @param options The [[ModalOptions]] like {width: 800, height: 600}
+ */
+export function element(id: string, title: string, options?: ModalOptions) : Modal {
+    options = {
+        content: `${id.startsWith("#") ? id : '#' + id}`,
+        title: title || " ",
+        theme: "theme-element",
         ...options,
     };
     const modal = new Modal(options);
