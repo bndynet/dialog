@@ -1,4 +1,4 @@
-import { alert, confirm, Modal, iframe } from "../src";
+import { alert, confirm, Modal, iframe, element } from "../src";
 
 describe("Modal", () => {
     it("use constructor to build modal and should show the tips", () => {
@@ -165,6 +165,20 @@ describe("Modal", () => {
             const modal = iframe("http://bndy.net", "External URL");
             expect(document.querySelectorAll(".theme-iframe").length).toBe(1);
             modal.close();
+        });
+    });
+
+    describe("#element", () => {
+        it("should render specified element as the modal dialog content", () => {
+            const modalContent = document.createElement("div");
+            modalContent.id = "modal-form";
+            document.body.appendChild(modalContent);
+            expect(document.querySelectorAll("#modal-form").length).toBe(1);
+            expect(document.querySelectorAll(".bn-modal #modal-form").length).toBe(0);
+            const modal = element("modal-form", "Element Modal");
+            expect(document.querySelectorAll(".bn-modal #modal-form").length).toBe(1);
+            modal.close();
+            expect(document.querySelectorAll("#modal-form").length).toBe(1);
         });
     });
 });
