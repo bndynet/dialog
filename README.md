@@ -9,7 +9,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/bndynet/dialog/badge.svg?branch=master)](https://coveralls.io/github/bndynet/dialog?branch=master)
 [![Code Styles](https://img.shields.io/badge/Code_Style-Prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-An interactive dialog includes alert, confirm and notification like toaster. But can be used in Browser and TypeScript project.
+An interactive dialog includes alert, confirm, notification and modal dialogs. But can be used in Browser and TypeScript project.
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ An interactive dialog includes alert, confirm and notification like toaster. But
 Use `npm install @bndynet/dialog` to install package, and import them like below:
 
 ```typescript
-import { alert, confirm, notify, loading, loadingFor, iframe } from "@bndynet/dialog";
+import { alert, confirm, notify, loading, loadingFor, iframe, element } from "@bndynet/dialog";
 ```
 
 ### For Website
@@ -26,17 +26,12 @@ import { alert, confirm, notify, loading, loadingFor, iframe } from "@bndynet/di
 The UMD build is also available on unpkg.com, and you can add to your website like:
 
 ```html
-<!--
-    bootstrap is optional, you can define your styles
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
--->
-
 <link href="https://unpkg.com/@bndynet/dialog/dist/dialog.css" rel="stylesheet" type="text/css" />
 <script src="https://unpkg.com/@bndynet/dialog/dist/dialog.umd.js"></script>
 
 <script>
     dialog.setup({
-        theme: "your-theme",    // will be appended the `class` attribute of `body` tag
+        theme: "your-theme",    // will be appended the `class` attribute of `body` tag, more themes please see https://github.com/bndynet/dialog-themes
         labelOK: "OK",
         labelCancel: "Cancel",
         animate: true,
@@ -63,6 +58,7 @@ The UMD build is also available on unpkg.com, and you can add to your website li
     dialog.loading({text: "Loading"});
 
     dialog.iframe('http://bndy.net', 'Title'[, {width: '80%', height: '80%'}]);
+    dialog.element('formId', 'Form Title'[, {width: '80%', height: '80%'}]);
 
     // loading box for element
     var elLoading = dialog.loadingFor("#id", "Loading...", "#00ff00");
