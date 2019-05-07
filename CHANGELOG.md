@@ -1,3 +1,15 @@
+# [2.7.0](https://github.com/bndynet/dialog/compare/v2.6.1...v2.7.0) (2019-05-07)
+
+
+### Bug Fixes
+
+* **modal:** duplicated element IDs for **dialog.element** method ([f84ebc8](https://github.com/bndynet/dialog/commit/f84ebc8))
+
+
+### Features
+
+* **modal:** show specified element as the modal dialog content ([0858151](https://github.com/bndynet/dialog/commit/0858151))
+
 ## [2.6.1](https://github.com/bndynet/dialog/compare/v2.6.0...v2.6.1) (2019-05-02)
 
 
