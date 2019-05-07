@@ -8,6 +8,7 @@ export class Modal {
 
     public finalOptions: ModalOptions;
     private ref: HTMLElement | undefined;
+    private closeListeners: Array<(sender: Modal) => void> = [];
 
     constructor(options?: ModalOptions) {
         this.finalOptions = {
@@ -38,6 +39,9 @@ export class Modal {
      * @param event The close event
      */
     public close = (event?: any) => {
+        this.closeListeners.forEach((listener: (sender: Modal) => void) => {
+            listener(this);
+        });
         if (typeof this.finalOptions.onClosing === "function") {
             if (this.finalOptions.onClosing(event)) {
                 this.removeElement();
@@ -52,6 +56,10 @@ export class Modal {
             }
         }
     };
+
+    public addCloseListener(fn: (sender: Modal) => void) {
+        this.closeListeners.push(fn);
+    }
 
     private removeElement = () => {
         if (Modal.containerRef && Modal.containerRef.querySelectorAll(".bn-modal").length <= 1) {
@@ -101,7 +109,7 @@ export class Modal {
             eleHeaderToolboxClose.setAttribute("aria-label", "Close");
             eleHeaderToolboxClose.innerHTML = "&times;";
             eleHeaderToolboxClose.addEventListener("click", event => {
-                this.removeElement();
+                this.close();
             });
             eleHeaderToolbox.appendChild(eleHeaderToolboxClose);
             eleHeader.appendChild(eleHeaderToolbox);
@@ -112,12 +120,23 @@ export class Modal {
         // check whether the content is URI
         // maybe browsers disable access local resoruces, like Chrome, Firefox
         let eleBody;
-        if (options.content && options.content.startsWith("URI:")) {
-            options.content = options.content.replace("URI:", "");
-            eleBody = document.createElement("iframe");
-            eleBody.setAttribute("src", options.content);
-            eleBody.setAttribute("class", "bn-modal-body");
-        } else {
+        if (options.content) {
+            if (options.content.startsWith("URI:")) {
+                options.content = options.content.replace("URI:", "");
+                eleBody = document.createElement("iframe");
+                eleBody.setAttribute("src", options.content);
+                eleBody.setAttribute("class", "bn-modal-body");
+            } else if (options.content.startsWith("#")) {
+                eleBody = document.createElement("div");
+                const elem = document.getElementById(options.content.replace("#", ""));
+                if (elem) {
+                    elem.style.display = "block";
+                    eleBody.appendChild(elem);
+                }
+                eleBody.setAttribute("class", "bn-modal-body");
+            }
+        }
+        if (!eleBody) {
             eleBody = document.createElement("div");
             eleBody.setAttribute("class", "bn-modal-body");
             eleBody.innerHTML = options.content || "";
@@ -201,6 +220,10 @@ export interface ModalOptions {
     width?: number | string;
     height?: number | string;
     buttons?: ModalButton[];
+    /**
+     * The event listener will be called before closing.
+     * @returns true to continue, otherwise break close event.
+     */
     onClosing?: (event: any) => boolean;
     onClosed?: (event: any) => void;
     labelOK?: string;
@@ -357,6 +380,33 @@ export function iframe(uri: string, title: string, options?: ModalOptions) : Mod
         ...options,
     };
     const modal = new Modal(options);
+    modal.render();
+    return modal;
+}
+
+/**
+ * Opens a modal dialog and appends the ID element.
+ * @param id The element ID
+ * @param title The dialog title
+ * @param options The [[ModalOptions]] like {width: 800, height: 600}
+ */
+export function element(id: string, title: string, options?: ModalOptions) : Modal {
+    const eleSelector = id.startsWith("#") ? id : '#' + id;
+    options = {
+        content: eleSelector,
+        title: title || " ",
+        theme: "theme-element",
+        ...options,
+    };
+    const modal = new Modal(options);
+    modal.addCloseListener(() => {
+        const ele = document.querySelector(eleSelector) as HTMLElement;
+        if (ele) {
+            ele.style.display = 'none';
+            document.body.appendChild(ele);
+        }
+        return true;
+    });
     modal.render();
     return modal;
 }

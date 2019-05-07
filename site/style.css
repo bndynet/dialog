@@ -33,6 +33,9 @@ hr {
     top: 0;
     z-index: 9999;
 }
+.hidden {
+    display: none;
+}
 .box {
     position: relative;
     padding: 0.5rem;

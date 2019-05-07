@@ -86,16 +86,40 @@
                 <button class="btn btn-light" onclick='dialog.alert("Title", "Alert Message", function(e) { alert("Clicked ok"); });'>
                     Alert with Title
                 </button>
-                <hr />
+                <br />
+                <br />
                 <button class="btn btn-light" onclick='dialog.confirm("Confirm Message", function(e) { alert("Clicked ok"); });'>
                     Confirm
                 </button>
                 <button class="btn btn-light" onclick='dialog.confirm("Title", "Confirm Message", function(e) { alert("Clicked ok"); });'>
                     Confirm with Title
                 </button>
+                <br />
+                <br />
                 <button class="btn btn-light" onclick='dialog.iframe("https://bndy.net")'>
                     Open external url
                 </button>
+                <button id="btn-openelement" class="btn btn-light">
+                    Open a form
+                </button>
+                <div id="modal-dialog-form" class="hidden">
+                    <form>
+                        <h5>
+                            Placeholder for form
+                        </h5>
+                        <div>
+                            <input id="name" type="text" />
+                        </div>
+                    </form>
+                </div>
+                <script type="text/javascript">
+                    document.getElementById("btn-openelement").addEventListener("click", function() {
+                        var d = dialog.element("modal-dialog-form", "Form", {width: 800, height: 600, onClosing: () => {
+                            document.getElementById("name").value = "";
+                            return true;
+                        }});
+                    });
+                </script>
 
                 <hr />
                 <button class="btn btn-light" onclick='dialog.notify("Message" + Date.now())'>
