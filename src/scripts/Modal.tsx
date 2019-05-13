@@ -120,28 +120,38 @@ export class Modal {
         // check whether the content is URI
         // maybe browsers disable access local resoruces, like Chrome, Firefox
         let eleBody;
-        if (options.content) {
-            if (options.content.startsWith("URI:")) {
-                options.content = options.content.replace("URI:", "");
+        if (!options.contentType) {
+            options.contentType = ContentType.TEXT;
+        }
+        switch (options.contentType) {
+            case ContentType.URL:
+                options.content = options.content;
                 eleBody = document.createElement("iframe");
-                eleBody.setAttribute("src", options.content);
+                eleBody.setAttribute("src", options.content || "");
                 eleBody.setAttribute("class", "bn-modal-body");
-            } else if (options.content.startsWith("#")) {
+                break;
+
+            case ContentType.ELEMENT:
                 eleBody = document.createElement("div");
-                const elem = document.getElementById(options.content.replace("#", ""));
+                const elem = document.getElementById(options.content || "");
                 if (elem) {
                     elem.style.display = "block";
                     eleBody.appendChild(elem);
                 }
                 eleBody.setAttribute("class", "bn-modal-body");
-            }
+                break;
+
+            case ContentType.TEXT:
+            default:
+                eleBody = document.createElement("div");
+                eleBody.setAttribute("class", "bn-modal-body");
+                eleBody.innerHTML = options.content || "";
+                break;
         }
-        if (!eleBody) {
-            eleBody = document.createElement("div");
-            eleBody.setAttribute("class", "bn-modal-body");
-            eleBody.innerHTML = options.content || "";
+
+        if (eleBody) {
+            eleRoot.appendChild(eleBody);
         }
-        eleRoot.appendChild(eleBody);
 
         let footerHeight = 0;
         if ((options.buttons && options.buttons.length > 0) || options.tip) {
@@ -209,11 +219,19 @@ export class Modal {
     };
 }
 
+/** The content type for [[Modal]] */
+export enum ContentType {
+    TEXT,
+    ELEMENT,
+    URL,
+}
+
 /** The options for [[Modal]] */
 export interface ModalOptions {
     animate?: boolean;
     theme?: string;
     content?: string;
+    contentType?: ContentType;
     title?: string;
     tip?: string;
     css?: string;
@@ -374,7 +392,8 @@ export function confirm(): Modal {
  */
 export function iframe(uri: string, title: string, options?: ModalOptions) : Modal {
     options = {
-        content: `URI:${uri}`,
+        content: uri,
+        contentType: ContentType.URL,
         theme: "theme-iframe",
         title: title || uri,
         ...options,
@@ -391,16 +410,16 @@ export function iframe(uri: string, title: string, options?: ModalOptions) : Mod
  * @param options The [[ModalOptions]] like {width: 800, height: 600}
  */
 export function element(id: string, title: string, options?: ModalOptions) : Modal {
-    const eleSelector = id.startsWith("#") ? id : '#' + id;
     options = {
-        content: eleSelector,
+        content: id,
         title: title || " ",
         theme: "theme-element",
+        contentType: ContentType.ELEMENT,
         ...options,
     };
     const modal = new Modal(options);
     modal.addCloseListener(() => {
-        const ele = document.querySelector(eleSelector) as HTMLElement;
+        const ele = document.querySelector("#" + id) as HTMLElement;
         if (ele) {
             ele.style.display = 'none';
             document.body.appendChild(ele);
