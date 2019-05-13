@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/bndynet/dialog/compare/v2.7.0...v2.7.1) (2019-05-13)
+
+
+### Bug Fixes
+
+* **modal:** dialog content can not start with '#' (close [#8](https://github.com/bndynet/dialog/issues/8)) ([5e36dae](https://github.com/bndynet/dialog/commit/5e36dae))
+
 # [2.7.0](https://github.com/bndynet/dialog/compare/v2.6.1...v2.7.0) (2019-05-07)
 
 
