@@ -1,3 +1,10 @@
+# [2.8.0](https://github.com/bndynet/dialog/compare/v2.7.1...v2.8.0) (2019-05-15)
+
+
+### Features
+
+* **modal:** returns Promise if **confirm** without callback ([52e6f3c](https://github.com/bndynet/dialog/commit/52e6f3c))
+
 ## [2.7.1](https://github.com/bndynet/dialog/compare/v2.7.0...v2.7.1) (2019-05-13)
 
 
