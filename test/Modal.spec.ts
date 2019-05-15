@@ -158,6 +158,20 @@ describe("Modal", () => {
             document.querySelectorAll<HTMLElement>(".btn")[1].click();
             expect(document.querySelectorAll(".bn-modal").length).toBe(0);
         });
+
+        it("should return a promise with callback and title", done => {
+            confirm("Promise confirm").then(() => {
+                done();
+            });
+            document.querySelectorAll<HTMLElement>(".btn")[1].click();
+        });
+
+        it("should return a promise with callback, title and content", done => {
+            confirm("Promise confirm", "content").then(() => {
+                done();
+            });
+            document.querySelectorAll<HTMLElement>(".btn")[1].click();
+        });
     });
 
     describe("#iframe", () => {

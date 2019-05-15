@@ -47,8 +47,8 @@ The UMD build is also available on unpkg.com, and you can add to your website li
     dialog.alert("content", function() {});
     dialog.alert("title", "content", function() {});
 
-    dialog.confirm("content", function() {});
-    dialog.confirm("title", "content", function() {});
+    dialog.confirm("content", function() {});   // same as `dialog.confirm("content").then(function() { })`
+    dialog.confirm("title", "content", function() {});  // same as `dialog.confirm("title", "content").then(function() { })`
 
     dialog.notify("Message"[, "success"|"warning"|"error"]);
     dialog.notify({message: "message", theme: "success"});

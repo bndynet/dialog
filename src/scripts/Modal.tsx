@@ -336,11 +336,37 @@ export function confirm(message: string, callback: () => void): Modal;
  * @returns A [[Modal]] instance
  */
 export function confirm(title: string, message: string, callback: () => void): Modal;
+/**
+ * Shows a confirm dialog
+ * @param title The confirm title, if message unspecified, which is as the message
+ * @param message The confirm message
+ * @returns A promise
+ */
+export function confirm(title: string, message?: string) : Promise<void>;
 
 /**
  * Shows an confirm dialog according to the specified arguments.
  */
-export function confirm(): Modal {
+export function confirm(): Modal | Promise<void> {
+    if (typeof arguments[arguments.length - 1] !== "function") {
+        const pArgs = arguments;
+        return new Promise((resolve, reject) => {
+            switch(pArgs.length) {
+                case 1:
+                    confirm(pArgs[0], () => {
+                        resolve();
+                    });
+                    break;
+
+                case 2:
+                    confirm(pArgs[0], pArgs[1], () => {
+                        resolve();
+                    });
+                    break;
+            }
+        });
+    }
+
     const args = arguments;
     const modal = new Modal();
     const modalOptions = modal.finalOptions;
