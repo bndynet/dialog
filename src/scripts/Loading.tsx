@@ -10,12 +10,16 @@ export interface LoadingOptions {
  * The loading component class.
  */
 export class Loading {
-    public static globalInstance: Loading | null;
+    public static hideGlobal() {
+        document.body.querySelectorAll(".bn-loading-overlay").forEach(ele => {
+            ele.remove();
+        });
+    }
 
     private refEl: HTMLElement | null;
     private options: LoadingOptions | null;
 
-    constructor(options?: LoadingOptions) {
+    public constructor(options?: LoadingOptions) {
         this.options = options || null;
         this.refEl = null;
     }
@@ -25,9 +29,6 @@ export class Loading {
      */
     public show() {
         this.render();
-        if (this.isGlobal()) {
-            Loading.globalInstance = this;
-        }
         return this;
     }
 
@@ -35,24 +36,20 @@ export class Loading {
      * Hides the loading component.
      */
     public hide() {
-        if (this.refEl) {
-            this.refEl.remove();
-            this.refEl = null;
-            if (this.isGlobal()) {
-                Loading.globalInstance = null;
-            }
+        if (this.options && this.options.targetEl) {
+            this.options.targetEl.querySelectorAll(".bn-loading-overlay").forEach(ele => {
+                ele.remove();
+            });
+        } else {
+            Loading.hideGlobal();
         }
-    }
-
-    private isGlobal(): boolean {
-        return !(this.options && this.options.targetEl);
     }
 
     private getLoadingEl() : HTMLElement {
         const container = document.createElement("div");
         container.setAttribute("class", "bn-loading-container");
 
-        if (this.isGlobal()) {
+        if (!(this.options && this.options.targetEl)) {
             const elIcon = document.createElement("i");
             elIcon.setAttribute("class", "bicon bicon-loading");
             if (this.options && this.options.color) {
@@ -90,12 +87,16 @@ export class Loading {
         this.refEl.setAttribute("class", "bn-loading-overlay");
         this.refEl.appendChild(this.getLoadingEl());
         if (this.options && this.options.targetEl) {
-            this.options.targetEl.appendChild(this.refEl);
-            if (this.options.inline) {
-                this.refEl.className += " inline";
+            if (this.options.targetEl.querySelectorAll(".bn-loading-overlay").length === 0) {
+                this.options.targetEl.appendChild(this.refEl);
+                if (this.options.inline) {
+                    this.refEl.className += " inline";
+                }
             }
         } else {
-            document.body.appendChild(this.refEl);
+            if (document.querySelectorAll("body .bn-loading-overlay").length === 0) {
+                document.body.appendChild(this.refEl);
+            }
         }
     };
 }
@@ -108,9 +109,7 @@ export class Loading {
  */
 export function loading(args?: boolean | LoadingOptions): Loading | null {
     if (args === false) {
-        if (Loading.globalInstance) {
-            Loading.globalInstance.hide();
-        }
+        Loading.hideGlobal();
         return null;
     } else if (typeof args === "object") {
         return new Loading(args).show();
