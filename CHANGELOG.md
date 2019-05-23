@@ -1,3 +1,10 @@
+## [2.8.1](https://github.com/bndynet/dialog/compare/v2.8.0...v2.8.1) (2019-05-23)
+
+
+### Bug Fixes
+
+* **loading:** duplicated loading elements ([7117abe](https://github.com/bndynet/dialog/commit/7117abe))
+
 # [2.8.0](https://github.com/bndynet/dialog/compare/v2.7.1...v2.8.0) (2019-05-15)
 
 
