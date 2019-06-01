@@ -53,3 +53,9 @@ hr {
 #changelog-body h3 {
     margin: 0.5rem 0;
 }
+
+#ddlThemes {
+    height: 30px;
+    margin-top: 5px;
+    margin-left: 15px;
+}
