@@ -1,4 +1,4 @@
-import { alert, confirm, Modal, iframe, element } from "../src";
+import { alert, confirm, Modal, iframe, url, element } from "../src";
 
 describe("Modal", () => {
     it("use constructor to build modal and should show the tips", () => {
@@ -177,6 +177,14 @@ describe("Modal", () => {
     describe("#iframe", () => {
         it("should render an iframe element for external url", () => {
             const modal = iframe("http://bndy.net", "External URL");
+            expect(document.querySelectorAll(".theme-iframe").length).toBe(1);
+            modal.close();
+        });
+    });
+
+    describe("#url", () => {
+        it("should render an iframe element for external url", () => {
+            const modal = url("http://bndy.net", "External URL");
             expect(document.querySelectorAll(".theme-iframe").length).toBe(1);
             modal.close();
         });

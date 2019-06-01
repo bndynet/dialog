@@ -59,7 +59,7 @@ The UMD build is also available on unpkg.com, and you can add to your website li
     dialog.loading(false);  // hide the global loading box
     dialog.loading({text: "Loading"});
 
-    dialog.iframe('http://bndy.net', 'Title'[, {width: '80%', height: '80%'}]);
+    dialog.url('http://bndy.net', 'Title'[, {width: '80%', height: '80%'}]);
     dialog.element('formId', 'Form Title'[, {width: '80%', height: '80%'}]);
 
     // loading box for element

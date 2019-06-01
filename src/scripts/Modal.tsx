@@ -430,6 +430,13 @@ export function iframe(uri: string, title: string, options?: ModalOptions) : Mod
 }
 
 /**
+ * Alias for `iframe`
+ */
+export function url(uri: string, title: string, options?: ModalOptions) : Modal {
+    return iframe(uri, title, options);
+}
+
+/**
  * Opens a modal dialog and appends the ID element.
  * @param id The element ID
  * @param title The dialog title
