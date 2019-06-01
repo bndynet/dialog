@@ -36,6 +36,22 @@ export let defaultOptions: DialogOptions = {
 export function setup(options: DialogOptions) {
     defaultOptions = {...defaultOptions, ...options};
     if (defaultOptions.theme) {
-        document.body.classList.add(defaultOptions.theme);
+        setTheme(defaultOptions.theme);
+    }
+}
+
+/**
+ * Sets theme for dialog and will remove old theme
+ * @param theme The dialog theme
+ */
+export function setTheme(theme: string) {
+    const attrKey = 'dialog-theme';
+    const oldTheme = document.body.getAttribute(attrKey);
+    if (oldTheme) {
+        document.body.classList.remove(oldTheme);
+    }
+    if (theme) {
+        document.body.classList.add(theme);
+        document.body.setAttribute(attrKey, theme);
     }
 }

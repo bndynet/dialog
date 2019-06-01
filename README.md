@@ -44,6 +44,8 @@ The UMD build is also available on unpkg.com, and you can add to your website li
         notificationSquare: false
     });
 
+    dialog.setTheme("theme");
+
     dialog.alert("content", function() {});
     dialog.alert("title", "content", function() {});
 
