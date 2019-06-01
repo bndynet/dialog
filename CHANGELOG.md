@@ -1,3 +1,11 @@
+# [2.9.0](https://github.com/bndynet/dialog/compare/v2.8.1...v2.9.0) (2019-06-01)
+
+
+### Features
+
+* new function **setTheme** to change theme ([f0d0ca0](https://github.com/bndynet/dialog/commit/f0d0ca0))
+* **modal:** alias **url** function for **iframe** ([3487f22](https://github.com/bndynet/dialog/commit/3487f22))
+
 ## [2.8.1](https://github.com/bndynet/dialog/compare/v2.8.0...v2.8.1) (2019-05-23)
 
 
