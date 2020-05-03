@@ -45,9 +45,16 @@
             margin-top: -5%;
         }
 
+        &.theme-element,
         &.theme-iframe {
             width: 80%;
             height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+
+            > .bn-modal-body {
+                flex: 1;
+            }
         }
 
         &.animated {

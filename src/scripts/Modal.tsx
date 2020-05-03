@@ -92,6 +92,10 @@ export class Modal {
             eleRoot.style.width = options.width.toString();
         }
 
+        if (options.height) {
+            eleRoot.style.height = options.height.toString();
+        }
+
         let headerHeight = 0;
         if (options.title) {
             let eleHeader: HTMLElement | null = null;
@@ -153,21 +157,9 @@ export class Modal {
             eleRoot.appendChild(eleBody);
         }
 
-        let footerHeight = 0;
         if ((options.buttons && options.buttons.length > 0) || options.tip) {
             const eleFooter = this.renderFooter(options);
             eleRoot.appendChild(eleFooter);
-            footerHeight = eleFooter.clientHeight;
-        }
-
-        let height: number | string | null = null;
-        if (options.height && typeof options.height === "number") {
-            height = options.height - headerHeight - footerHeight;
-        } else if (typeof options.height === "string") {
-            height = `calc(${options.height} - ${headerHeight}px - ${footerHeight}px)`;
-        }
-        if (height) {
-            eleBody.style.height = height.toString();
         }
 
         return eleRoot;
