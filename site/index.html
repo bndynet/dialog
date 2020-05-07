@@ -1,0 +1,196 @@
+<html>
+    <head>
+        <title>@bndynet/dialog</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://static.bndy.net/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="https://static.bndy.net/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="https://static.bndy.net/favicon-16x16.png" />
+        <link rel="mask-icon" href="https://static.bndy.net/safari-pinned-tab.svg" color="#5bbad5" />
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/github-markdown-css/github-markdown.css" />
+        <script src="https://unpkg.com/showdown/dist/showdown.min.js"></script>
+
+        <link rel="stylesheet" href="style.css" />
+
+        
+
+        <link href="https://unpkg.com/@bndynet/dialog/dist/dialog.css" rel="stylesheet" type="text/css" />
+        <script src="https://unpkg.com/@bndynet/dialog/dist/dialog.umd.js"></script>
+        
+    </head>
+    <body>
+        <a href="https://github.com/bndynet/dialog" class="forkme">
+            <img width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1" />
+        </a>
+        <header>
+            <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#" style="position:relative;top:-3px;">@bndynet/dialog</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            
+                            <a class="nav-link" href="../api" target="_blank">API Documentation</a>
+                            
+                        </li>
+                        <li class="nav-item">
+                            
+
+                            <a class="nav-link" href="../coverage-report" target="_blank">Coverage Report</a>
+                            
+                        </li>
+                        <li class="nav-item">
+                            <select id="ddlThemes" onchange="changeTheme(this)">
+                                <option value="">Choose a dialog theme </option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <aside>
+            <div id="sub-navs" class="list-group">
+                <a class="list-group-item list-group-item-action" href="#jumbotron">Read me</a>
+                <a class="list-group-item list-group-item-action" href="#examples">Examples</a>
+                <a class="list-group-item list-group-item-action" href="#changelog">Changelog</a>
+            </div>
+        </aside>
+
+        <main data-spy="scroll" data-target="#sub-navs" data-offset="0">
+            <div id="jumbotron" class="jumbotron">
+                <div id="readme" class="markdown-body"></div>
+            </div>
+
+            <section id="examples">
+                <h1>Examples</h1>
+                <button class="btn btn-light" onclick='dialog.alert("Alert Message");'>
+                    Alert
+                </button>
+                <button class="btn btn-light" onclick='dialog.alert("Title", "Alert Message", function(e) { alert("Clicked ok"); });'>
+                    Alert with Title
+                </button>
+                <br />
+                <br />
+                <button class="btn btn-light" onclick='dialog.confirm("Confirm Message", function(e) { alert("Clicked ok"); });'>
+                    Confirm
+                </button>
+                <button class="btn btn-light" onclick='dialog.confirm("Title", "Confirm Message", function(e) { alert("Clicked ok"); });'>
+                    Confirm with Title
+                </button>
+                <br />
+                <br />
+                <button class="btn btn-light" onclick='dialog.iframe("https://bndy.net", "My Blog", {height: "40%"})'>
+                    Open external url
+                </button>
+                <button id="btn-openelement" class="btn btn-light">
+                    Open a form
+                </button>
+                <div id="modal-dialog-form" class="hidden">
+                    <form>
+                        <h5>
+                            Placeholder for form
+                        </h5>
+                        <div>
+                            <input id="name" type="text" />
+                        </div>
+                    </form>
+                </div>
+                <script type="text/javascript">
+                    document.getElementById("btn-openelement").addEventListener("click", function() {
+                        var d = dialog.element("modal-dialog-form", "Form", {width: 800, height: 600, onClosing: () => {
+                            document.getElementById("name").value = "";
+                            return true;
+                        }});
+                    });
+                </script>
+
+                <hr />
+                <button class="btn btn-light" onclick='dialog.notify("Message" + Date.now())'>
+                    Notify
+                </button>
+                <button class="btn btn-light" onclick='dialog.notify("Message" + Date.now(), "success")'>
+                    Notify Success
+                </button>
+                <button class="btn btn-light" onclick='dialog.notify("Message" + Date.now(), "error")'>
+                    Notify Error
+                </button>
+                <button class="btn btn-light" onclick='dialog.notify("Message" + Date.now(), "warning")'>
+                    Notify Warning
+                </button>
+
+                <hr />
+                <button id="btn-loading-page" class="btn btn-light">
+                    Page Loading
+                </button>
+                <button id="btn-loading-element" class="btn btn-light">
+                    Data Loading
+                </button>
+                <div id="data" class="box with-border">
+                    This is a placeholder for loading data.
+                </div>
+                <div id="data1" class="box with-border">
+                    This is a placeholder for loading data. This is a placeholder for loading data. This is a placeholder for loading data.
+                    This is a placeholder for loading data.
+                    This is a placeholder for loading data.
+                    This is a placeholder for loading data.
+                    This is a placeholder for loading data.
+                </div>
+                <script>
+                    document.getElementById("btn-loading-page").addEventListener("click", function() {
+                        dialog.loading({
+                            // color: "#356ba5",
+                            text: "加载中...",
+                        });
+                        setTimeout(function() {
+                            dialog.loading(false);
+                        }, 3000);
+                    });
+                    document.getElementById("btn-loading-element").addEventListener("click", function() {
+                        var d = dialog.loading({
+                            targetEl: document.querySelector("#data"),
+                            text: "Loading...",
+                            // color: "#356ba5",
+                            inline: true,
+                        });
+                        setTimeout(function() {
+                            d.hide();
+                        }, 3000);
+                    });
+                    document.getElementById("btn-loading-element").addEventListener("click", function() {
+                        var d = dialog.loadingFor("#data1");
+                        setTimeout(function() {
+                            d.hide();
+                        }, 3000);
+                    });
+                </script>
+
+            </section>
+
+            <section id="changelog">
+                <h1>Changelog</h1>
+                <div id="changelog-body" class="markdown-body"></div>
+            </section>
+        </main>
+
+        <script type="text/javascript" src="./script.js"></script>
+        <script type="text/javascript">
+            var themeSiteUrl = 'https://bndynet.github.io/dialog-themes/';
+            var ele = document.createElement('script');
+            ele.setAttribute('type', 'text/javascript');
+            ele.setAttribute('src', themeSiteUrl + 'script.js');
+            document.body.appendChild(ele);
+        </script>
+    </body>
+</html>

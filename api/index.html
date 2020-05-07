@@ -1,0 +1,270 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@bndynet/dialog</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://static.bndy.net/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="https://static.bndy.net/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="https://static.bndy.net/favicon-16x16.png">
+	<link rel="mask-icon" href="https://static.bndy.net/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@bndynet/dialog</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @bndynet/dialog</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="dialog">Dialog</h1>
+				<p><a href="https://bndynet.github.io/dialog/site/">Demo</a> |
+					<a href="https://bndynet.github.io/dialog/api/">API Docs</a> |
+				<a href="https://bndynet.github.io/dialog-themes">Themes</a></p>
+				<p><a href="https://www.npmjs.com/package/@bndynet/dialog"><img src="https://img.shields.io/npm/v/@bndynet/dialog.svg" alt="npm"></a>
+					<a href="https://travis-ci.com/bndynet/dialog"><img src="https://travis-ci.com/bndynet/dialog.svg?branch=master" alt="Build Status"></a>
+					<a href="https://coveralls.io/github/bndynet/dialog?branch=master"><img src="https://coveralls.io/repos/github/bndynet/dialog/badge.svg?branch=master" alt="Coverage Status"></a>
+				<a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/Code_Style-Prettier-ff69b4.svg" alt="Code Styles"></a></p>
+				<p>An interactive dialog includes alert, confirm, notification and modal dialogs. But can be used in Browser and TypeScript project.</p>
+				<h2 id="getting-started">Getting Started</h2>
+				<h3 id="for-spa-single-page-application-">For SPA (Single Page Application)</h3>
+				<p>Use <code>npm install @bndynet/dialog</code> to install package, and import them like below:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { alert, confirm, notify, loading, loadingFor, iframe, element } <span class="hljs-keyword">from</span> <span class="hljs-string">"@bndynet/dialog"</span>;</code></pre>
+				<h3 id="for-website">For Website</h3>
+				<p>The UMD build is also available on unpkg.com, and you can add to your website like:</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://unpkg.com/@bndynet/dialog/dist/dialog.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span> /&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@bndynet/dialog/dist/dialog.umd.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+    dialog.setup({
+        theme: <span class="hljs-string">"your-theme"</span>,    <span class="hljs-comment">// will be appended the `class` attribute of `body` tag, more themes please see https://github.com/bndynet/dialog-themes</span>
+        labelOK: <span class="hljs-string">"OK"</span>,
+        labelCancel: <span class="hljs-string">"Cancel"</span>,
+        animate: <span class="hljs-literal">true</span>,
+        notificationAutoClose: <span class="hljs-literal">true</span>,
+        notificationClickClose: <span class="hljs-literal">true</span>,
+        notificationCloseDelay: <span class="hljs-number">3000</span>,
+        notificationTheme: <span class="hljs-string">"default"</span>,
+        notificationPlacement: <span class="hljs-string">"bottom right"</span>,
+        notificationMaxItems: <span class="hljs-number">3</span>,
+        notificationSquare: <span class="hljs-literal">false</span>
+    });
+
+    dialog.setTheme(<span class="hljs-string">"theme"</span>);
+
+    dialog.alert(<span class="hljs-string">"content"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{});
+    dialog.alert(<span class="hljs-string">"title"</span>, <span class="hljs-string">"content"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{});
+
+    dialog.confirm(<span class="hljs-string">"content"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{});   <span class="hljs-comment">// same as `dialog.confirm("content").then(function() { })`</span>
+    dialog.confirm(<span class="hljs-string">"title"</span>, <span class="hljs-string">"content"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{});  <span class="hljs-comment">// same as `dialog.confirm("title", "content").then(function() { })`</span>
+
+    dialog.notify(<span class="hljs-string">"Message"</span>[, <span class="hljs-string">"success"</span>|<span class="hljs-string">"warning"</span>|<span class="hljs-string">"error"</span>]);
+    dialog.notify({message: <span class="hljs-string">"message"</span>, theme: <span class="hljs-string">"success"</span>});
+
+    dialog.loading();
+    dialog.loading(<span class="hljs-literal">false</span>);  <span class="hljs-comment">// hide the global loading box</span>
+    dialog.loading({text: <span class="hljs-string">"Loading"</span>});
+
+    dialog.url(<span class="hljs-string">'http://bndy.net'</span>, <span class="hljs-string">'Title'</span>[, {width: <span class="hljs-string">'80%'</span>, height: <span class="hljs-string">'80%'</span>}]);
+    dialog.element(<span class="hljs-string">'formId'</span>, <span class="hljs-string">'Form Title'</span>[, {width: <span class="hljs-string">'80%'</span>, height: <span class="hljs-string">'80%'</span>}]);
+
+    <span class="hljs-comment">// loading box for element</span>
+    <span class="hljs-keyword">var</span> elLoading = dialog.loadingFor(<span class="hljs-string">"#id"</span>, <span class="hljs-string">"Loading..."</span>, <span class="hljs-string">"#00ff00"</span>);
+    elLoading.hide();
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/contenttype.html" class="tsd-kind-icon">Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loading.html" class="tsd-kind-icon">Loading</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/modal.html" class="tsd-kind-icon">Modal</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/notification.html" class="tsd-kind-icon">Notification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dialogoptions.html" class="tsd-kind-icon">Dialog<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadingoptions.html" class="tsd-kind-icon">Loading<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modalbutton.html" class="tsd-kind-icon">Modal<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modaloptions.html" class="tsd-kind-icon">Modal<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationoptions.html" class="tsd-kind-icon">Notification<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#alert" class="tsd-kind-icon">alert</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#confirm" class="tsd-kind-icon">confirm</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#element" class="tsd-kind-icon">element</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iframe" class="tsd-kind-icon">iframe</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#loading" class="tsd-kind-icon">loading</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#loadingfor" class="tsd-kind-icon">loading<wbr>For</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#notify" class="tsd-kind-icon">notify</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#settheme" class="tsd-kind-icon">set<wbr>Theme</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setup" class="tsd-kind-icon">setup</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#url" class="tsd-kind-icon">url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#defaultoptions" class="tsd-kind-icon">default<wbr>Options</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated by <a href="http://bndy.net/" target="_blank">BNDY-NET</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
