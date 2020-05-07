@@ -1,3 +1,10 @@
+## [2.9.1](https://github.com/bndynet/dialog/compare/v2.9.0...v2.9.1) (2020-05-07)
+
+
+### Bug Fixes
+
+* **iframe:** iframe dialog cannot be set height ([134fdd0](https://github.com/bndynet/dialog/commit/134fdd0))
+
 # [2.9.0](https://github.com/bndynet/dialog/compare/v2.8.1...v2.9.0) (2019-06-01)
 
 
