@@ -65,7 +65,7 @@
     "jest": "^23.6.0",
     "jest-config": "^23.6.0",
     "jest-transform-stub": "^2.0.0",
-    "jsdom": "13.1.0",
+    "jsdom": "16.5.0",
     "jsdom-global": "^3.0.2",
     "lint-staged": "^8.1.0",
     "node-sass": "^4.11.0",
